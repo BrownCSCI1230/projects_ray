@@ -65,7 +65,7 @@ Please do keep in mind that you are only implementing a part of your ray tracer,
 
 - The utils module is the same thing you’ve seen in the parser lab. You should paste whatever you have in the parser lab into the project to make a functional parser.
 
-- The camera module contains everything related to camera operation. You are required to implement part of the camera interface. Please refer to the comments for detailed instructions.
+- The camera module contains everything related to camera operation. You are required to implement part of the camera interface which provides you with the ability to transform between different space. Please refer to the comments for detailed instructions.
 
 - The raytracer module is the main component of this assignment, although it only contains two classes, `RayTraceScene` and `RayTracer`. The class names kind of already give out what they are used for. In `RayTraceScene`, you are expected to construct the scene using the meta-data that you’ve built in the parser lab. In `RayTracer`, you will implement the ray tracing algorithm.
 
