@@ -52,4 +52,10 @@ Finally the equations you write should not use vectors but should be functions o
 
 ### 4 Illuminating samples
 
-**[2 points]4.1** In the first part of the ray project, you are **NOT** required to handle any lighting. Instead, you only need to use the normal at the intersection point as its color. Therefore, you have to compute the normal correctly! Assume you know the normal vector in object-space, $\vec{n}_{object}$. Give an equation for the normal vector in world-space, $\vec{n}_{world}$, using the object’s modeling transformation $M$ and $\vec{n}_{object}$.
+**[2 points]4.1** In the first part of the ray project, you are **NOT** required to handle any lighting. Instead, you only need to use the normal at the intersection point as its color. Therefore, you have to compute the normal correctly! 
+
+
+Given the following values, write down the equation for the normal vector $\vec{n_w}$ in world-space
+
+- $\vec{n_o}$ : normal vector in object-space. 
+- $M$ : object’s modeling transformation  
