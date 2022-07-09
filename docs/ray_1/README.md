@@ -1,3 +1,11 @@
+<!--
+ * @FilePath: \projects_ray\docs\ray_1\README.md
+ * @Author: AceSix
+ * @Date: 2022-07-08 21:25:24
+ * @LastEditors: AceSix
+ * @LastEditTime: 2022-07-08 21:39:22
+ * Copyright (C) 2022 Brown U. All rights reserved.
+-->
 # Projects 3: Ray
 
 ### Introduction to Computer Graphics, Fall 2022
