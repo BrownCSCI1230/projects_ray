@@ -11,6 +11,7 @@ CONFIG -= app_bundle
 
 SOURCES += \
     camera/camtranscamera.cpp \
+    camera/fixedcamera.cpp \
     camera/quaternioncamera.cpp \
     main.cpp \
     raytracer/intersectcheck/kdtree.cpp \
@@ -41,6 +42,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     camera/camera.h \
     camera/camtranscamera.h \
+    camera/fixedcamera.h \
     camera/quaternioncamera.h \
     raytracer/interface/light.h \
     raytracer/intersectcheck/kdtree.h \
@@ -88,3 +90,9 @@ QMAKE_CXXFLAGS += -g
 macx {
     QMAKE_CXXFLAGS_WARN_ON -= -Warray-bounds -Wc++0x-compat
 }
+
+DISTFILES += \
+    configs/main.ini
+
+RESOURCES += \
+    setting.qrc

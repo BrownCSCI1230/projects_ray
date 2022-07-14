@@ -2,6 +2,7 @@
 #define KDTREE_H
 
 #include <vector>
+#include <chrono>
 #include <memory>
 #include "raytracer/utils/boundutils.h"
 #include "raytracer/interface/intersect.h"

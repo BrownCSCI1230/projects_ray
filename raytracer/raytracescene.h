@@ -7,7 +7,7 @@
 
 class BaseRTShape;
 class Camera;
-class CamtransCamera;
+class FixedCamera;
 class Light;
 class TextureManager;
 
@@ -54,7 +54,7 @@ private:
     std::vector<std::shared_ptr<BaseRTShape> > m_shapes;
 
     // scene camera instance
-    std::shared_ptr<CamtransCamera> m_camera;
+    std::shared_ptr<FixedCamera> m_camera;
 
     // texture manager that accelerates texture loading
     std::shared_ptr<TextureManager> m_textureManager;

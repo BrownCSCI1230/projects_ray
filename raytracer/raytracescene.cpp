@@ -14,7 +14,7 @@
 #include "raytracer/intersectcheck/naiveintersect.h"
 
 #include "utils/sceneparser.h"
-#include "camera/camtranscamera.h"
+#include "camera/fixedcamera.h"
 
 #include <iostream>
 
@@ -29,7 +29,7 @@ RayTraceScene::RayTraceScene(int width, int height, const struct SceneMetaData &
     m_globalData(metaData.globalData),
     m_lights(vector<shared_ptr<Light> >()),
     m_shapes(vector<shared_ptr<BaseRTShape> >(metaData.shapes.size())),
-    m_camera(make_shared<CamtransCamera>()),
+    m_camera(make_shared<FixedCamera>()),
     m_textureManager(make_shared<TextureManager>())
 {
     auto startTS = std::chrono::system_clock::now();
