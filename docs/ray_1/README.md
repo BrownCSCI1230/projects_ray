@@ -108,7 +108,9 @@ To submit your assignment, upload your repo to Gradescope via Github. For all as
 
 Start with a simple scene, like the scene with only one primitive and make sure it’s working.
 
-Make sure your math and numbers are making sense. 
+Think thoroughly about the whole ray tracing pipeline before start writing your code. What are the transformations needed to compute the final output? Does your math and number make sense? Is there any negative value or extremely large value during the computation?
+
+Utilize the QtCreator debugger to debug.
 
 ### 7.2 My ray tracer runs extremely slow :(
 
