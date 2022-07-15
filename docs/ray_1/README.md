@@ -64,12 +64,12 @@ You may want to check the data structures in `CS123SceneData.h` and make sure yo
 
 The codebase is structured with three modules.
 
-- The `utils` module provides the utilities you will use for the ray tracer. You should implement the `SceneLoader` as you have done similarly in the parsing lab.
+- The `utils` module provides the utilities you will use for the ray tracer. You should implement the `SceneParser` as you have done similarly in the parsing lab.
 
-- The camera module contains everything related to camera operation. You are required to implement part of the camera interface which provides you with the ability to transform between different space. Please refer to the comments for detailed instructions.
+- The camera module contains everything related to camera operation. You are required to implement the camera interface which provides you with the ability to transform between different space.
 
-- The raytracer module is the main component of this assignment, although it only contains two classes, `RayTraceScene` and `RayTracer`. The class names kind of already give out what they are used for. 
-  - In `RayTraceScene`, you will construct the scene using the meta-data from the `SceneLoader` you build.
+- The raytracer module is the main component of this assignment, although it only contains two classes, `RayTraceScene` and `RayTracer`. The class names already give out what they are used for. 
+  - In `RayTraceScene`, you will construct the scene using the RenderData you filled in the 'SceneParser'
   - In `RayTracer`, You will implement the ray tracing algorithm. It takes in a `RayTraceScene` as the render parameter.
 
 
