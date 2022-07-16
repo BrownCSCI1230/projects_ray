@@ -13,8 +13,8 @@
 #include "raytracer/intersectcheck/kdtree.h"
 #include "raytracer/intersectcheck/naiveintersect.h"
 
-#include "utils/sceneparser.h"
-#include "camera/fixedcamera.h"
+#include "utils/SceneParser.h"
+#include "camera/RayCamera.h"
 
 #include <iostream>
 
@@ -23,13 +23,13 @@
 
 using namespace std;
 
-RayTraceScene::RayTraceScene(int width, int height, const struct SceneMetaData &metaData) :
+RayTraceScene::RayTraceScene(int width, int height, const struct RenderData &metaData) :
     m_width(width),
     m_height(height),
     m_globalData(metaData.globalData),
     m_lights(vector<shared_ptr<Light> >()),
     m_shapes(vector<shared_ptr<BaseRTShape> >(metaData.shapes.size())),
-    m_camera(make_shared<FixedCamera>()),
+    m_camera(make_shared<RayCamera>()),
     m_textureManager(make_shared<TextureManager>())
 {
     auto startTS = std::chrono::system_clock::now();
@@ -113,7 +113,7 @@ void RayTraceScene::setupLights(const std::vector<SceneLightData> &lights) {
     return;
 }
 
-void RayTraceScene::loadPrimitives(const struct SceneMetaData &metaData, int start, int end) {
+void RayTraceScene::loadPrimitives(const struct RenderData &metaData, int start, int end) {
     for (int i = start; i < end; i++) {
         shared_ptr<BaseRTShape> rtShape = nullptr;
         const auto &shape = metaData.shapes[i];

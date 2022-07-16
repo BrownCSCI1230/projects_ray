@@ -10,9 +10,7 @@ CONFIG -= app_bundle
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    camera/camtranscamera.cpp \
-    camera/fixedcamera.cpp \
-    camera/quaternioncamera.cpp \
+    camera/RayCamera.cpp \
     main.cpp \
     raytracer/intersectcheck/kdtree.cpp \
     raytracer/intersectcheck/naiveintersect.cpp \
@@ -30,8 +28,8 @@ SOURCES += \
     raytracer/sampler/naivesampler.cpp \
     raytracer/utils/texturemanager.cpp \
     raytracer/raytracescene.cpp \
-    utils/scenefilereader.cpp \
-    utils/sceneparser.cpp \
+    utils/ScenefileReader.cpp \
+    utils/SceneParser.cpp \
     utils/RGBA.cpp
 
 # Default rules for deployment.
@@ -40,10 +38,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    camera/RayCamera.h \
     camera/camera.h \
-    camera/camtranscamera.h \
-    camera/fixedcamera.h \
-    camera/quaternioncamera.h \
     raytracer/interface/light.h \
     raytracer/intersectcheck/kdtree.h \
     raytracer/intersectcheck/naiveintersect.h \
@@ -64,9 +60,9 @@ HEADERS += \
     raytracer/utils/boundutils.h \
     raytracer/utils/texturemanager.h \
     raytracer/raytracescene.h \
-    utils/scenedefinition.h \
-    utils/scenefilereader.h \
-    utils/sceneparser.h \
+    utils/SceneData.h \
+    utils/ScenefileReader.h \
+    utils/SceneParser.h \
     utils/RGBA.h
 
 INCLUDEPATH += glm utils

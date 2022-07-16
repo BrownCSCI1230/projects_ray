@@ -1,11 +1,11 @@
 /**
- * @file CS123SceneData.h
+ * @file SceneData.h
  *
  * Header file containing scene data structures.
  */
 
-#ifndef __CS123_SCENE_DATA__
-#define __CS123_SCENE_DATA__
+#ifndef __SCENE_DATA__
+#define __SCENE_DATA__
 
 #include <vector>
 #include <string>

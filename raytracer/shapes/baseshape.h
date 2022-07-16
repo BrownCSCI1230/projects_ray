@@ -3,7 +3,7 @@
 
 #include <QImage>
 #include <glm/glm.hpp>
-#include "utils/scenedefinition.h"
+#include "utils/SceneData.h"
 #include "raytracer/interface/intersect.h"
 #include "raytracer/utils/boundutils.h"
 

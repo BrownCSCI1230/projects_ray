@@ -2,21 +2,21 @@
 #define RAYTRACESCENE_H
 
 #include <memory>
-#include "utils/scenedefinition.h"
+#include "utils/SceneData.h"
 #include "raytracer/interface/intersect.h"
 
 class BaseRTShape;
 class Camera;
-class FixedCamera;
+class RayCamera;
 class Light;
 class TextureManager;
 
-struct SceneMetaData;
+struct RenderData;
 
 class RayTraceScene
 {
 public:
-    RayTraceScene(int width, int height, const struct SceneMetaData &metaData);
+    RayTraceScene(int width, int height, const struct RenderData &metaData);
 
     // The getter of the width of the scene
     const int& width() const;
@@ -43,7 +43,7 @@ private:
     void setupCamera(const SceneCameraData &camera);
     void setupLights(const std::vector<SceneLightData> &lights);
 
-    void loadPrimitives(const struct SceneMetaData &metaData, int start, int end);
+    void loadPrimitives(const struct RenderData &metaData, int start, int end);
 
     int m_width, m_height;
 
@@ -54,7 +54,7 @@ private:
     std::vector<std::shared_ptr<BaseRTShape> > m_shapes;
 
     // scene camera instance
-    std::shared_ptr<FixedCamera> m_camera;
+    std::shared_ptr<RayCamera> m_camera;
 
     // texture manager that accelerates texture loading
     std::shared_ptr<TextureManager> m_textureManager;
