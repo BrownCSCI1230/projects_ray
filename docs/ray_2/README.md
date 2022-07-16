@@ -3,7 +3,7 @@
  * @Author: AceSix
  * @Date: 2022-07-08 21:38:18
  * @LastEditors: AceSix
- * @LastEditTime: 2022-07-16 10:28:37
+ * @LastEditTime: 2022-07-16 13:09:53
  * Copyright (C) 2022 Brown U. All rights reserved.
 -->
 # Projects 4: Ray 2
@@ -53,13 +53,13 @@ In this project, you are required to implement spotlight with falloff. Falloff i
     </figcaption>
 </p>
 
-\[
+$$
     f(x)= 
 \begin{cases}
     I_{full},& \text{if } x\leq \theta_{inner}\\
     I_{full}\cdot(1 - \text{falloff}(x)),   & \theta_{inner} \le x \leq\theta_{inner}
 \end{cases}
-\]
+$$
 
 There are many different falloff functions with different effect. Here we choose a function with smooth transition effect at the boundaries:
 $$\text{falloff}(x) = -2*(\frac{x-\theta_{inner}}{\theta_{outer}-\theta_{inner}})^3 + 3*(\frac{x-\theta_{inner}}{\theta_{outer}-\theta_{inner}})^2$$
