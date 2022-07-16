@@ -3,7 +3,7 @@
  * @Author: AceSix
  * @Date: 2022-07-08 21:38:18
  * @LastEditors: AceSix
- * @LastEditTime: 2022-07-16 13:09:53
+ * @LastEditTime: 2022-07-16 13:37:47
  * Copyright (C) 2022 Brown U. All rights reserved.
 -->
 # Projects 4: Ray 2
@@ -57,7 +57,7 @@ $$
     f(x)= 
 \begin{cases}
     I_{full},& \text{if } x\leq \theta_{inner}\\
-    I_{full}\cdot(1 - \text{falloff}(x)),   & \theta_{inner} \le x \leq\theta_{inner}
+    I_{full}\cdot(1 - \text{falloff}(x)),   & \theta_{inner} < x \leq\theta_{inner}
 \end{cases}
 $$
 
