@@ -12,14 +12,21 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    QSettings settings( ":/configs/main.ini", QSettings::IniFormat );
+
+    QCommandLineParser parser;
+    parser.addHelpOption();
+    parser.addPositionalArgument("config", "Path of the config file.");
+    parser.process(a);
+
+    auto positionalArgs = parser.positionalArguments();
+    if (positionalArgs.size() != 1) {
+        std::cerr << "not enough arguments for the ray tracer, please run with --help to see the manual" << std::endl;
+        a.exit(1);
+        return 1;
+    }
+
+    QSettings settings( positionalArgs[0], QSettings::IniFormat );
     QStringList keys = settings.allKeys();
-
-
-//    settings->beginGroup("user");
-//    QCommandLineParser parser;
-//    parser.addHelpOption();
-
     QString iScenePath = settings.value("IO/scene").toString();
     QString oImagePath = settings.value("IO/output").toString();
 

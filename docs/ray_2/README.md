@@ -3,7 +3,7 @@
  * @Author: AceSix
  * @Date: 2022-07-08 21:38:18
  * @LastEditors: AceSix
- * @LastEditTime: 2022-07-16 10:20:52
+ * @LastEditTime: 2022-07-16 10:28:37
  * Copyright (C) 2022 Brown U. All rights reserved.
 -->
 # Projects 4: Ray 2
@@ -44,7 +44,6 @@ Directional light is a light that shines in a particular direction. It does not 
 
 #### 2.0.3 spot light
 Spot light is a point in space that emits light in a finite cone of directions. A good example of spot light in real life is a flashlight. A region with the shape of a cone is able to receive light from the spotlight source. 
-This light source’s specific parameters include its position, direction, angle and pnumbra.
 
 In this project, you are required to implement spotlight with falloff. Falloff is the effect of light intensity becoming weaker since a certain point. The boundary of whole region lighted by the spotlight is called an outer cone. Within the outer cone there is a smaller region where light intensity is full, the boundary of this region is called an inner cone. For the region between inner and outer cone, the light intensity gradually gets lower as the distance from the inner cone increases. 
 <p align="center">
@@ -64,6 +63,9 @@ In this project, you are required to implement spotlight with falloff. Falloff i
 
 There are many different falloff functions with different effect. Here we choose a function with smooth transition effect at the boundaries:
 $$\text{falloff}(x) = -2*(\frac{x-\theta_{inner}}{\theta_{outer}-\theta_{inner}})^3 + 3*(\frac{x-\theta_{inner}}{\theta_{outer}-\theta_{inner}})^2$$
+
+
+This light source’s specific parameters include its position, direction, angle(angle of outer cone) and pnumbra(angle between inner and outer cone).
 
 ### 2.1 Phong Lighting Model
 The phong lighting model is one of the many lighting models to create realistic lighting effects by simulating real world light physics. It views the overall lighting as the combination of three components: ambient, diffuse and specular.

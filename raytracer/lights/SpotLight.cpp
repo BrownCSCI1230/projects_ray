@@ -1,4 +1,4 @@
-#include "spotlight.h"
+#include "SpotLight.h"
 
 SpotLight::SpotLight(glm::vec4 color, glm::vec4 pos, glm::vec4 dir, glm::vec3 attenuation, float angle, float penumbra)
     : m_color(color),
@@ -28,8 +28,9 @@ glm::vec4 SpotLight::getIntensity(glm::vec4 pos) const {
         return m_color * atten;
     }
 
-    float falloff = ((posAngle - m_innerAngle) / m_penumbra);
-    float portion = 1 - falloff * falloff;
+    float rel_pos = ((posAngle - m_innerAngle) / m_penumbra);
+    float falloff = -2*std::pow(rel_pos, 3) + 3*std::pow(rel_pos, 2);
+    float portion = 1 - falloff;
     return m_color * portion * atten;
 }
 
