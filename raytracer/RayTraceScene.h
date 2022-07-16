@@ -3,7 +3,7 @@
 
 #include <memory>
 #include "utils/SceneData.h"
-#include "raytracer/interface/intersect.h"
+#include "raytracer/interface/Intersect.h"
 
 class BaseRTShape;
 class Camera;

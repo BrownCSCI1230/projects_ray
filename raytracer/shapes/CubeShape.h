@@ -1,7 +1,7 @@
 #ifndef CUBERAYTRACER_H
 #define CUBERAYTRACER_H
 
-#include "baseshape.h"
+#include "BaseShape.h"
 #include <vector>
 
 class CubeRTShape : public BaseRTShape

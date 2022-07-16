@@ -1,4 +1,4 @@
-#include "texturemanager.h"
+#include "TextureManager.h"
 #include <iostream>
 
 using namespace std;

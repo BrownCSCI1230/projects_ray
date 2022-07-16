@@ -1,11 +1,11 @@
-#include "raytracer.h"
-#include "raytracescene.h"
-#include "camera/camera.h"
-#include "raytracer/interface/light.h"
-#include "raytracer/sampler/naivesampler.h"
-#include "raytracer/sampler/adaptivesupersampler.h"
-#include "raytracer/rendertask/rendertask.h"
-#include "raytracer/shapes/baseshape.h"
+#include "RayTracer.h"
+#include "RayTraceScene.h"
+#include "camera/Camera.h"
+#include "raytracer/interface/Light.h"
+#include "raytracer/sampler/NaiveSampler.h"
+#include "raytracer/sampler/AdaptiveSuperSampler.h"
+#include "raytracer/rendertask/RenderTask.h"
+#include "raytracer/shapes/BaseShape.h"
 
 #include <vector>
 #include <iostream>

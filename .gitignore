@@ -20,3 +20,4 @@ qrc_resources.cpp
 
 data/*
 results/*
+qrc_setting.cpp

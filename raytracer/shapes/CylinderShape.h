@@ -1,7 +1,7 @@
 #ifndef CYLINDERRAYTRACER_H
 #define CYLINDERRAYTRACER_H
 
-#include "baseshape.h"
+#include "BaseShape.h"
 
 class CylinderRTShape : public BaseRTShape
 {

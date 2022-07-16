@@ -1,7 +1,7 @@
 #ifndef SPHERERAYTRACER_H
 #define SPHERERAYTRACER_H
 
-#include "baseshape.h"
+#include "BaseShape.h"
 
 class SphereRTShape : public BaseRTShape
 {

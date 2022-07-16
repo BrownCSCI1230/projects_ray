@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <memory>
-#include "raytracer/interface/intersect.h"
+#include "raytracer/interface/Intersect.h"
 
 class BaseRTShape;
 

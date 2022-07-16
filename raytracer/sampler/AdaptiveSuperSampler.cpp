@@ -1,7 +1,7 @@
-#include "adaptivesupersampler.h"
-#include "camera/camera.h"
-#include "raytracer/raytracer.h"
-#include "raytracer/raytracescene.h"
+#include "AdaptiveSuperSampler.h"
+#include "camera/Camera.h"
+#include "raytracer/RayTracer.h"
+#include "raytracer/RayTraceScene.h"
 
 #include <memory>
 

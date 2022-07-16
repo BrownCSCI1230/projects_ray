@@ -5,8 +5,8 @@
 
 #include <iostream>
 #include "utils/SceneParser.h"
-#include "raytracer/raytracer.h"
-#include "raytracer/raytracescene.h"
+#include "raytracer/RayTracer.h"
+#include "raytracer/RayTraceScene.h"
 
 int main(int argc, char *argv[])
 {

@@ -1,17 +1,17 @@
-#include "raytracescene.h"
-#include "raytracer/utils/texturemanager.h"
+#include "RayTraceScene.h"
+#include "raytracer/utils/TextureManager.h"
 
-#include "raytracer/lights/spotlight.h"
-#include "raytracer/lights/pointlight.h"
-#include "raytracer/lights/directionallight.h"
+#include "raytracer/lights/SpotLight.h"
+#include "raytracer/lights/PointLight.h"
+#include "raytracer/lights/DirectionalLight.h"
 
-#include "raytracer/shapes/cubeshape.h"
-#include "raytracer/shapes/coneshape.h"
-#include "raytracer/shapes/cylindershape.h"
-#include "raytracer/shapes/sphereshape.h"
+#include "raytracer/shapes/CubeShape.h"
+#include "raytracer/shapes/ConeShape.h"
+#include "raytracer/shapes/CylinderShape.h"
+#include "raytracer/shapes/SphereShape.h"
 
-#include "raytracer/intersectcheck/kdtree.h"
-#include "raytracer/intersectcheck/naiveintersect.h"
+#include "raytracer/intersectcheck/KDTree.h"
+#include "raytracer/intersectcheck/NaiveIntersect.h"
 
 #include "utils/SceneParser.h"
 #include "camera/RayCamera.h"

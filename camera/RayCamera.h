@@ -1,7 +1,7 @@
 #ifndef RAYCAMERA_H
 #define RAYCAMERA_H
 
-#include "camera.h"
+#include "Camera.h"
 
 /**
  * @class RayCamera
@@ -39,7 +39,6 @@ public:
 private:
     float m_aspectRatio;
     float m_thetaH;
-    float m_thetaW;
 
     glm::mat4 m_viewMatrix;
     glm::mat4 m_transformMatrix;

@@ -4,8 +4,8 @@
 #include <vector>
 #include <chrono>
 #include <memory>
-#include "raytracer/utils/boundutils.h"
-#include "raytracer/interface/intersect.h"
+#include "raytracer/utils/BoundUtils.h"
+#include "raytracer/interface/Intersect.h"
 
 struct KDAccelNode;
 class BaseRTShape;

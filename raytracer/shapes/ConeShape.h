@@ -1,7 +1,7 @@
 #ifndef CONERAYTRACER_H
 #define CONERAYTRACER_H
 
-#include "baseshape.h"
+#include "BaseShape.h"
 
 class ConeRTShape : public BaseRTShape
 {
