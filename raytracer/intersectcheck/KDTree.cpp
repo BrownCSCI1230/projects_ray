@@ -1,5 +1,5 @@
-#include "kdtree.h"
-#include "raytracer/shapes/baseshape.h"
+#include "KDTree.h"
+#include "raytracer/shapes/BaseShape.h"
 #include <stack>
 #include <iostream>
 #include <algorithm>

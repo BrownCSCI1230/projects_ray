@@ -2,7 +2,7 @@
 #define BOUND_H
 
 #include <glm/glm.hpp>
-#include "raytracer/interface/intersect.h"
+#include "raytracer/interface/Intersect.h"
 
 enum class EdgeType {
     START,

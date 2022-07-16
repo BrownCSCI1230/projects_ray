@@ -3,9 +3,9 @@
 
 #include <QImage>
 #include <glm/glm.hpp>
-#include "utils/scenedefinition.h"
-#include "raytracer/interface/intersect.h"
-#include "raytracer/utils/boundutils.h"
+#include "utils/SceneData.h"
+#include "raytracer/interface/Intersect.h"
+#include "raytracer/utils/BoundUtils.h"
 
 class TextureManager;
 

@@ -1,7 +1,7 @@
 #ifndef __ScenefileReader__
 #define __ScenefileReader__
 
-#include "scenedefinition.h"
+#include "SceneData.h"
 
 #include <vector>
 #include <map>
@@ -27,16 +27,16 @@ public:
     ~ScenefileReader();
 
     // Parse the XML scene file. Returns false if scene is invalid.
-    bool parseXML();
+    bool readXML();
 
-    bool getGlobalData(SceneGlobalData& data) const;
+    void getGlobalData(SceneGlobalData& data) const;
 
-    bool getCameraData(SceneCameraData& data) const;
+    void getCameraData(SceneCameraData& data) const;
 
     int getNumLights() const;
 
     // Returns the ith light data
-    bool getLightData(int i, SceneLightData& data) const;
+    void getLightData(int i, SceneLightData& data) const;
 
     SceneNode* getRootNode() const;
 

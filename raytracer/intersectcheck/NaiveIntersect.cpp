@@ -1,5 +1,5 @@
-#include "naiveintersect.h"
-#include "raytracer/shapes/baseshape.h"
+#include "NaiveIntersect.h"
+#include "raytracer/shapes/BaseShape.h"
 
 using namespace std;
 

@@ -4,7 +4,7 @@
 #include <QThreadPool>
 #include <glm/glm.hpp>
 #include "utils/RGBA.h"
-#include "raytracer/interface/intersect.h"
+#include "raytracer/interface/Intersect.h"
 
 #define RAY_TRACE_MAX_DEPTH 4
 

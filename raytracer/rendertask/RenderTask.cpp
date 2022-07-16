@@ -1,7 +1,7 @@
-#include "rendertask.h"
-#include "raytracer/raytracer.h"
-#include "raytracer/raytracescene.h"
-#include "raytracer/sampler/pixelsampler.h"
+#include "RenderTask.h"
+#include "raytracer/RayTracer.h"
+#include "raytracer/RayTraceScene.h"
+#include "raytracer/sampler/PixelSampler.h"
 
 #include <iostream>
 #include <glm/glm.hpp>

@@ -21,3 +21,4 @@ qrc_resources.cpp
 data/*
 results/*
 docs/ray_2/.ipynb_checkpoints/Untitled-checkpoint.ipynb
+qrc_setting.cpp

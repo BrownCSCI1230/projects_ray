@@ -1,20 +1,20 @@
-#include "raytracescene.h"
-#include "raytracer/utils/texturemanager.h"
+#include "RayTraceScene.h"
+#include "raytracer/utils/TextureManager.h"
 
-#include "raytracer/lights/spotlight.h"
-#include "raytracer/lights/pointlight.h"
-#include "raytracer/lights/directionallight.h"
+#include "raytracer/lights/SpotLight.h"
+#include "raytracer/lights/PointLight.h"
+#include "raytracer/lights/DirectionalLight.h"
 
-#include "raytracer/shapes/cubeshape.h"
-#include "raytracer/shapes/coneshape.h"
-#include "raytracer/shapes/cylindershape.h"
-#include "raytracer/shapes/sphereshape.h"
+#include "raytracer/shapes/CubeShape.h"
+#include "raytracer/shapes/ConeShape.h"
+#include "raytracer/shapes/CylinderShape.h"
+#include "raytracer/shapes/SphereShape.h"
 
-#include "raytracer/intersectcheck/kdtree.h"
-#include "raytracer/intersectcheck/naiveintersect.h"
+#include "raytracer/intersectcheck/KDTree.h"
+#include "raytracer/intersectcheck/NaiveIntersect.h"
 
-#include "utils/sceneparser.h"
-#include "camera/fixedcamera.h"
+#include "utils/SceneParser.h"
+#include "camera/RayCamera.h"
 
 #include <iostream>
 
@@ -23,13 +23,13 @@
 
 using namespace std;
 
-RayTraceScene::RayTraceScene(int width, int height, const struct SceneMetaData &metaData) :
+RayTraceScene::RayTraceScene(int width, int height, const struct RenderData &metaData) :
     m_width(width),
     m_height(height),
     m_globalData(metaData.globalData),
     m_lights(vector<shared_ptr<Light> >()),
     m_shapes(vector<shared_ptr<BaseRTShape> >(metaData.shapes.size())),
-    m_camera(make_shared<FixedCamera>()),
+    m_camera(make_shared<RayCamera>()),
     m_textureManager(make_shared<TextureManager>())
 {
     auto startTS = std::chrono::system_clock::now();
@@ -113,7 +113,7 @@ void RayTraceScene::setupLights(const std::vector<SceneLightData> &lights) {
     return;
 }
 
-void RayTraceScene::loadPrimitives(const struct SceneMetaData &metaData, int start, int end) {
+void RayTraceScene::loadPrimitives(const struct RenderData &metaData, int start, int end) {
     for (int i = start; i < end; i++) {
         shared_ptr<BaseRTShape> rtShape = nullptr;
         const auto &shape = metaData.shapes[i];

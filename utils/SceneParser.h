@@ -1,23 +1,23 @@
 #ifndef SCENEPARSER_H
 #define SCENEPARSER_H
 
-#include "scenedefinition.h"
+#include "SceneData.h"
 #include <vector>
 #include <string>
 
-struct SceneShapeData {
+struct RenderShapeData {
     // The primitive description structure
     ScenePrimitive primitive;
     // The cumulative transformation matrix
     glm::mat4 ctm;
 };
 
-struct SceneMetaData {
+struct RenderData {
     SceneGlobalData globalData;
     SceneCameraData cameraData;
 
     std::vector<SceneLightData> lights;
-    std::vector<SceneShapeData> shapes;
+    std::vector<RenderShapeData> shapes;
 };
 
 class SceneParser
@@ -27,11 +27,11 @@ public:
     // @param filepath The path of the scene file to load.
     // @param oMetaData On return, this will contain the metadata of the loaded scene.
     // @return A boolean value indicating whether the load is successful.
-    static bool parse(std::string filepath, SceneMetaData &oMetaData);
+    static bool parse(std::string filepath, RenderData &oMetaData);
 
     /* TA SOLUTION BEGIN */
 private:
-    static void dfsParseSceneNode(SceneMetaData &oMetaData, SceneNode *node, glm::mat4 matrix);
+    static void dfsParseSceneNode(RenderData &oMetaData, SceneNode *node, glm::mat4 matrix);
 
     /* TA SOLUTION END */
 };
