@@ -22,6 +22,15 @@ In this assignment, you will implement the **basic part** of your ray tracer, an
   - Implicit shape primitives
   - Intersection pipeline
 
+The following diagram shows an example of one ray shootging through a pixel on the viewplane and intersecting with a sphere in the scene. You ultimate goal of this assignment is to implement this process with the given scene data.
+
+<p align="center">
+    <img src="./cast_ray.png" width="80%">
+    <figcaption align = "center"> <b>Fig. 1</b> 
+    Casting ray from camera
+    </figcaption>
+</p>
+
 ## 2 Requirements
 
 This assignment is out of 100 points
@@ -38,11 +47,32 @@ This assignment is out of 100 points
 * Software Engineering & Stability **(10pts)**
 * README **(5pts)**
 
+### 2.0 Parsing the scene
+
+We are going to use the same scenefile from the parser lab to describe a scene. For your ray tracer, you will load the scene from a scenefile, parse it, and then render the scene using the ray tracing algorithm. 
+
+Hence, first thing first, you need to be able to correctly parse the scene and you have already completed this part in the parsing lab. **If you haven't, please make sure you complete the parsing lab first before you start working on the ray project.**
+
+Please refer to section 3.1 on where to implement the parser.
+
 ### 2.1 Generating and casting rays
 
-In order to generate and cast rays into the scene, you will need to shoot rays through a pixel. For basic requirements, **you are only required to shoot one ray through the center of each pixel**. 
+In order to generate and cast rays into the scene, you will need to shoot rays through a pixel on the viewplane. For basic requirements, **you are only required to shoot one ray through the center of each pixel**.
 
-Of course, this will cause aliasing, which you have encountered before in lectures and in the last assignment. There are various ways to smoothen the output. Check the extra credit section if you are interested.
+<details>
+  <summary> Can we do better? </summary>
+  Of course you can have more samples. And having only one sample per pixel is definitely going to cause aliasing. You have encountered the notion of aliasing in previous lectures and in the last assignment. 
+
+  <p align="center">
+    <img src="./cast_ray.png" width="80%">
+    <figcaption align = "center"> <b>Fig. 2</b> 
+    Comparison between the baseline output and the super-sampling applied output
+    </figcaption>
+  </p>
+  
+  There are various ways to resolve this issue. Check the extra credit section if you are interested.
+</details>
+
 
 ### 2.2 Finding intersection point
 
@@ -56,7 +86,14 @@ In order to find an intersection point, we first have to define our shapes. As c
 ### 2.3 “Illumination”
 In this assignment, you are not required to handle any lighting. Yet, it would still be nice to be able to distinguish between different primitives in the scene and verify the implementation. To do this, **simply use the normal value as the color**.
 
-You may want to check the data structures in `CS123SceneData.h` and make sure you fully understand all of them.
+Here are some sample outputs of what your ray tracer should be capable of by the end of this assignment.
+
+  <p align="center">
+    <img src="./cast_ray.png" width="80%">
+    <figcaption align = "center"> <b>Fig. 3</b> 
+    Sample output
+    </figcaption>
+  </p>
 
 ## 3 Project Stencil
 
@@ -66,10 +103,10 @@ The codebase is structured with three modules.
 
 - The `utils` module provides the utilities you will use for the ray tracer. You should implement the `SceneParser` as you have done similarly in the parsing lab.
 
-- The camera module contains everything related to camera operation. You are required to implement the camera interface which provides you with the ability to transform between different space.
+- The `camera` module contains everything related to camera operation. The `Camera.h` is an interface for the camera which tells you what a camera should be fully capable of. However, for the purpose of the Ray assignment, you won't need its full functionality, but only a tiny part of it. The `RayCamera` is the class that you are actually going to implement. You should conform to the `Camera` interface when implementing `RayCamera`.
 
 - The raytracer module is the main component of this assignment, although it only contains two classes, `RayTraceScene` and `RayTracer`. The class names already give out what they are used for. 
-  - In `RayTraceScene`, you will construct the scene using the RenderData you filled in the 'SceneParser'
+  - In `RayTraceScene`, you will construct the scene using the RenderData you filled in the `SceneParser`
   - In `RayTracer`, You will implement the ray tracing algorithm. It takes in a `RayTraceScene` as the render parameter.
 
 
