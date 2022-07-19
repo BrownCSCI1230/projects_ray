@@ -66,7 +66,7 @@ Given the following values, write down the equation for the normal vector $\vec{
 
 Write down a way to linearly map the values from normal value to RGB value.
 
-If you do the correctly computation correctly in your project, you should see something like this on a sphere.
+If you do the above computation correctly in your project, you should see something like this on a sphere.
 
 <p align="center">
     <img src="./viewplane.png" width="80%">
