@@ -22,7 +22,7 @@ In this assignment, you will implement the **basic part** of your ray tracer, an
   - Implicit shape primitives
   - Intersection pipeline
 
-The following diagram shows an example of one ray shootging through a pixel on the viewplane and intersecting with a sphere in the scene. You ultimate goal of this assignment is to implement this process with the given scene data.
+The following diagram shows an example of one ray shooting through a pixel on the viewplane and intersecting with a sphere in the scene. You ultimate goal of this assignment is to implement this process with the given scene data.
 
 <p align="center">
     <img src="./cast_ray.png" width="80%">
