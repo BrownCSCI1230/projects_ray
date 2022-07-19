@@ -1,7 +1,7 @@
 #ifndef DIRECTIONALLIGHT_H
 #define DIRECTIONALLIGHT_H
 
-#include "raytracer/interface/light.h"
+#include "raytracer/interface/Light.h"
 
 class DirectionalLight : public Light
 {

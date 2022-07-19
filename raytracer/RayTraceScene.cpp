@@ -26,25 +26,30 @@ using namespace std;
 RayTraceScene::RayTraceScene(int width, int height, const struct RenderData &metaData) :
     m_width(width),
     m_height(height),
+    m_metaData(metaData),
     m_globalData(metaData.globalData),
     m_lights(vector<shared_ptr<Light> >()),
     m_shapes(vector<shared_ptr<BaseRTShape> >(metaData.shapes.size())),
     m_camera(make_shared<RayCamera>()),
     m_textureManager(make_shared<TextureManager>())
 {
+
+}
+
+void RayTraceScene::initialize(bool useTexture) {
     auto startTS = std::chrono::system_clock::now();
     std::cout << std::endl << "Begin loading scene..." << std::endl;
 
     // setup the camera
-    setupCamera(metaData.cameraData);
+    setupCamera(m_metaData.cameraData);
 
     // setup the lights
-    setupLights(metaData.lights);
+    setupLights(m_metaData.lights);
 
     // Since the workload is pretty light,
     // there is no need to spread it onto too many threads
     int threadCnt = 4;
-    int primitiveCnt = (int)metaData.shapes.size();
+    int primitiveCnt = (int)m_metaData.shapes.size();
     int chunkSize = std::max(primitiveCnt / threadCnt, 10000);
 
     QThreadPool threadPool;
@@ -59,7 +64,7 @@ RayTraceScene::RayTraceScene(int width, int height, const struct RenderData &met
         if (taskId == threadCnt - 1) {
             end = primitiveCnt;
         }
-        QFuture<void> future = QtConcurrent::run(&threadPool, &RayTraceScene::loadPrimitives, this, metaData, start, end);
+        QFuture<void> future = QtConcurrent::run(&threadPool, &RayTraceScene::loadPrimitives, this, m_metaData, start, end, useTexture);
         futures.append(future);
 
         if (end == primitiveCnt) break;
@@ -113,29 +118,29 @@ void RayTraceScene::setupLights(const std::vector<SceneLightData> &lights) {
     return;
 }
 
-void RayTraceScene::loadPrimitives(const struct RenderData &metaData, int start, int end) {
+void RayTraceScene::loadPrimitives(const struct RenderData &metaData, int start, int end, bool useTexture) {
     for (int i = start; i < end; i++) {
         shared_ptr<BaseRTShape> rtShape = nullptr;
         const auto &shape = metaData.shapes[i];
         switch(shape.primitive.type) {
             case PrimitiveType::PRIMITIVE_CUBE:
             {
-                rtShape = make_shared<CubeRTShape>(shape.primitive.material, m_textureManager);
+                rtShape = make_shared<CubeRTShape>(shape.primitive.material);
                 break;
             }
             case PrimitiveType::PRIMITIVE_CONE:
             {
-                rtShape = make_shared<ConeRTShape>(shape.primitive.material, m_textureManager);
+                rtShape = make_shared<ConeRTShape>(shape.primitive.material);
                 break;
             }
             case PrimitiveType::PRIMITIVE_CYLINDER:
             {
-                rtShape = make_shared<CylinderRTShape>(shape.primitive.material, m_textureManager);
+                rtShape = make_shared<CylinderRTShape>(shape.primitive.material);
                 break;
             }
             case PrimitiveType::PRIMITIVE_SPHERE:
             {
-                rtShape = make_shared<SphereRTShape>(shape.primitive.material, m_textureManager);
+                rtShape = make_shared<SphereRTShape>(shape.primitive.material);
                 break;
             }
             case PrimitiveType::PRIMITIVE_TORUS:
@@ -148,6 +153,9 @@ void RayTraceScene::loadPrimitives(const struct RenderData &metaData, int start,
 
         if (rtShape) {
             rtShape->setCTM(shape.ctm);
+            if (useTexture) {
+                rtShape->loadTexture(m_textureManager);
+            }
             m_shapes[i] = rtShape;
         }
     }
@@ -174,6 +182,10 @@ const std::shared_ptr<Camera> RayTraceScene::getCamera() const {
     return m_camera;
 }
 
-bool RayTraceScene::intersect(const Ray &ray, SurfaceInteraction &oSurInteraction) const {
-    return m_kdTree->intersect(ray, oSurInteraction);
+bool RayTraceScene::intersect(const Ray &ray, SurfaceInteraction &oSurInteraction, bool useKdTree) const {
+    if (useKdTree) {
+        return m_kdTree->intersect(ray, oSurInteraction);
+    } else {
+        return m_naiveIntersect->intersect(ray, oSurInteraction);
+    }
 }

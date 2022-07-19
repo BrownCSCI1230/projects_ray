@@ -1,11 +1,11 @@
-#include "sphereshape.h"
+#include "SphereShape.h"
 #include <queue>
 
 using namespace std;
 using namespace glm;
 
-SphereRTShape::SphereRTShape(SceneMaterial material, std::shared_ptr<TextureManager> textureManager) :
-    BaseRTShape(material, textureManager),
+SphereRTShape::SphereRTShape(SceneMaterial material) :
+    BaseRTShape(material),
     m_R(0.5f)
 {
 

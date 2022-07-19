@@ -2,6 +2,7 @@
 #define RAYTRACESCENE_H
 
 #include <memory>
+#include "SceneParser.h"
 #include "utils/SceneData.h"
 #include "raytracer/interface/Intersect.h"
 
@@ -17,6 +18,8 @@ class RayTraceScene
 {
 public:
     RayTraceScene(int width, int height, const struct RenderData &metaData);
+
+    void initialize(bool useTexture);
 
     // The getter of the width of the scene
     const int& width() const;
@@ -37,15 +40,17 @@ public:
     // @param ray The Ray object describing the ray in the WORLD SPACE.
     // @param oSurInteraction Upon return, contains the intersection information if there is one.
     // @return A boolean value indicating if there is an intersection with a primitive.
-    bool intersect(const Ray &ray, SurfaceInteraction &oSurInteraction) const;
+    bool intersect(const Ray &ray, SurfaceInteraction &oSurInteraction, bool useKdTree) const;
 
 private:
     void setupCamera(const SceneCameraData &camera);
     void setupLights(const std::vector<SceneLightData> &lights);
 
-    void loadPrimitives(const struct RenderData &metaData, int start, int end);
+    void loadPrimitives(const struct RenderData &metaData, int start, int end, bool useTexture);
 
+    // Raw data
     int m_width, m_height;
+    struct RenderData m_metaData;
 
     // scene metadata
     SceneGlobalData m_globalData;

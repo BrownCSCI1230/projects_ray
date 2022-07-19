@@ -7,7 +7,7 @@
 class CubeRTShape : public BaseRTShape
 {
 public:
-    CubeRTShape(SceneMaterial material, std::shared_ptr<TextureManager> textureManager);
+    CubeRTShape(SceneMaterial material);
 
     virtual bool intersect(const Ray &ray, SurfaceInteraction &oSurInteraction) const override;
 

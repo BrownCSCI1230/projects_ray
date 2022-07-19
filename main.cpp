@@ -42,7 +42,6 @@ int main(int argc, char *argv[])
     int width = settings.value("Canvas/width").toInt();
     int height = settings.value("Canvas/height").toInt();
 
-    RayTraceScene rtScene(width, height, metaData);
 
     RayTracerConfig rtConfig;
 
@@ -55,12 +54,17 @@ int main(int argc, char *argv[])
     rtConfig.enableSuperSample = settings.value("Feature/super-sample").toBool();
     rtConfig.enableAcceleration = settings.value("Feature/acceleration").toBool();
 
+
+    RayTraceScene rtScene(width, height, metaData);
+    rtScene.initialize(rtConfig.enableTextureMap);
+
     QImage image = QImage(width, height, QImage::Format_RGBX8888);
     image.fill(Qt::black);
 
     RGBA *data = reinterpret_cast<RGBA *>(image.bits());
 
     RayTracer raytracer(rtConfig);
+    raytracer.initialize();
 
     raytracer.render(data, rtScene);
 

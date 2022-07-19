@@ -1,7 +1,7 @@
 #ifndef NAIVESAMPLER_H
 #define NAIVESAMPLER_H
 
-#include "pixelsampler.h"
+#include "PixelSampler.h"
 
 class NaiveSampler : public PixelSampler
 {

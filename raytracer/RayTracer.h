@@ -37,15 +37,21 @@ class RayTracer
 public:
     RayTracer(RayTracerConfig config);
 
+    // Initilize the ray tracer.
+    // @warning This function must be called after creating the ray tracer.
+    void initialize();
+
     // Render the scene synchronously.
+    // The ray tracer will render the scene and fill the imageData in place.
     // The ray tracer is only capable of running one render session at a time.
     // When the ray tracer is running, call on RayTracer::render will return immediately.
-    // @param imageData The pointer to the imageData.
+    // @param imageData The pointer to the imageData to be filled.
     // @param scene The scene containing necessary info for rendering.
     void render(RGBA *imageData, const RayTraceScene &scene);
 
     // Render the scene asynchronously.
-    // @param imageData The pointer to the imageData.
+    // The ray tracer will render the scene and fill the imageData in place.
+    // @param imageData The pointer to the imageData to be filled.
     // @param scene The scene containing necessary info for rendering.
     void renderAsync(RGBA *imageData, const RayTraceScene &scene);
 

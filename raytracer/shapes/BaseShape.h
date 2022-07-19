@@ -24,8 +24,13 @@ struct ShapePQCompare {
 class BaseRTShape : public Intersect
 {
 public:
-    BaseRTShape(SceneMaterial material, std::shared_ptr<TextureManager> textureManager);
+    BaseRTShape(SceneMaterial material);
     virtual ~BaseRTShape();
+
+    // Load the texture with the texture manager.
+    // @param textureManager The textureManager is a helper class for accelerating texture image loading.
+    // @return A boolean value indicating whether the texture is successfully loaded.
+    bool loadTexture(std::shared_ptr<TextureManager> textureManager);
 
     // Set the cumulated transformation matrix of the object.
     // FROM OBJECT SPACE TO WORLD SPACE.
@@ -63,9 +68,6 @@ private:
 
     // texture
     std::shared_ptr<QImage> m_textureImage;
-
-    // texture loader
-    bool loadTexture(std::shared_ptr<TextureManager> textureManager);
 };
 
 #endif // BASERAYTRACER_H

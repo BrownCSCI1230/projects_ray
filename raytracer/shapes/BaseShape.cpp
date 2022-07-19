@@ -1,7 +1,7 @@
-#include "baseshape.h"
+#include "BaseShape.h"
 #include <QString>
 #include <iostream>
-#include "raytracer/utils/texturemanager.h"
+#include "raytracer/utils/TextureManager.h"
 
 using namespace std;
 using namespace glm;
@@ -10,13 +10,12 @@ static vec4 toVec4Color(QColor &color) {
     return vec4(color.redF(), color.greenF(), color.blueF(), color.alphaF());
 }
 
-BaseRTShape::BaseRTShape(SceneMaterial material, std::shared_ptr<TextureManager> textureManager) :
+BaseRTShape::BaseRTShape(SceneMaterial material) :
     m_CTM(glm::mat4(1.0f)),
     m_ICTM(glm::mat4(1.0f)),
-    m_material(material),
-    m_textureImage(nullptr)
+    m_material(material)
 {
-    loadTexture(textureManager);
+
 }
 
 BaseRTShape::~BaseRTShape() {

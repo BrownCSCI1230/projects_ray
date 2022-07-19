@@ -1,7 +1,7 @@
 #ifndef ADAPTIVESUPERSAMPLER_H
 #define ADAPTIVESUPERSAMPLER_H
 
-#include "pixelsampler.h"
+#include "PixelSampler.h"
 #include <glm/glm.hpp>
 #include <vector>
 

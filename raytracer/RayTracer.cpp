@@ -20,9 +20,13 @@ RayTracer::RayTracer(RayTracerConfig config) :
     m_threadPool(QThreadPool()),
     m_config(config)
 {
+
+}
+
+void RayTracer::initialize() {
     m_threadPool.setMaxThreadCount(QThread::idealThreadCount());
 
-    if (config.enableSuperSample) {
+    if (m_config.enableSuperSample) {
         m_pixelSampler = std::make_shared<AdaptiveSuperSampler>();
     } else {
         m_pixelSampler = std::make_shared<NaiveSampler>();
@@ -76,7 +80,7 @@ void RayTracer::renderAsync(RGBA *imageData, const RayTraceScene &scene) {
 
 glm::vec4 RayTracer::traceRay(const Ray& r, const RayTraceScene &scene, const int depth) {
     SurfaceInteraction isect(-1);
-    bool foundIntersection = scene.intersect(r, isect);
+    bool foundIntersection = scene.intersect(r, isect, m_config.enableAcceleration);
 
     if (!foundIntersection) {
         // the ray escape the scene or the depth is greater than MAX_DEPTH, terminate
@@ -112,7 +116,7 @@ glm::vec4 RayTracer::traceRay(const Ray& r, const RayTraceScene &scene, const in
 
             Ray shadowRay(origin, isectToLight, tMax);
             SurfaceInteraction shadowIsect(-1);
-            if (scene.intersect(shadowRay, shadowIsect)) {
+            if (scene.intersect(shadowRay, shadowIsect, m_config.enableAcceleration)) {
                 // the shadow ray intersects with another primitive, this light should be ignored.
                 continue;
             }

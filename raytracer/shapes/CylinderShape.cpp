@@ -1,4 +1,4 @@
-#include "cylindershape.h"
+#include "CylinderShape.h"
 #include <queue>
 
 #define CYLD_TPDISK_IDX 0
@@ -8,8 +8,8 @@
 using namespace std;
 using namespace glm;
 
-CylinderRTShape::CylinderRTShape(SceneMaterial material, std::shared_ptr<TextureManager> textureManager) :
-    BaseRTShape(material, textureManager),
+CylinderRTShape::CylinderRTShape(SceneMaterial material) :
+    BaseRTShape(material),
     m_maxY(0.5f),
     m_minY(-0.5f),
     m_R(0.5f)

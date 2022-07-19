@@ -6,7 +6,7 @@
 class CylinderRTShape : public BaseRTShape
 {
 public:
-    CylinderRTShape(SceneMaterial material, std::shared_ptr<TextureManager> textureManager);
+    CylinderRTShape(SceneMaterial material);
 
     virtual bool intersect(const Ray &ray, SurfaceInteraction &oSurInteraction) const override;
 

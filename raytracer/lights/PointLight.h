@@ -1,7 +1,7 @@
 #ifndef POINTLIGHT_H
 #define POINTLIGHT_H
 
-#include "raytracer/interface/light.h"
+#include "raytracer/interface/Light.h"
 
 class PointLight : public Light
 {

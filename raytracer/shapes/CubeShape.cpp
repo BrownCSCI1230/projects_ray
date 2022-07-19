@@ -1,11 +1,11 @@
-#include "cubeshape.h"
+#include "CubeShape.h"
 #include <queue>
 
 using namespace glm;
 using namespace std;
 
-CubeRTShape::CubeRTShape(SceneMaterial material, std::shared_ptr<TextureManager> textureManager) :
-    BaseRTShape(material, textureManager),
+CubeRTShape::CubeRTShape(SceneMaterial material) :
+    BaseRTShape(material),
     m_edge(0.5f),
     m_normals(vector<vec3>(6))
 {

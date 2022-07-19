@@ -1,7 +1,7 @@
 #ifndef SPOTLIGHT_H
 #define SPOTLIGHT_H
 
-#include "raytracer/interface/light.h"
+#include "raytracer/interface/Light.h"
 
 class SpotLight : public Light
 {

@@ -1,4 +1,4 @@
-#include "coneshape.h"
+#include "ConeShape.h"
 #include <queue>
 
 using namespace std;
@@ -10,8 +10,8 @@ static const float COS_26 = 2.f / sqrt(5);
 #define CONE_DISK_IDX 0
 #define CONE_HAT_IDX 1
 
-ConeRTShape::ConeRTShape(SceneMaterial material, std::shared_ptr<TextureManager> textureManager) :
-    BaseRTShape(material, textureManager),
+ConeRTShape::ConeRTShape(SceneMaterial material) :
+    BaseRTShape(material),
     m_R(0.5f)
 {
 

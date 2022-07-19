@@ -1,4 +1,4 @@
-#include "directionallight.h"
+#include "DirectionalLight.h"
 
 DirectionalLight::DirectionalLight(glm::vec4 color, glm::vec4 direction)
     : m_color(color),

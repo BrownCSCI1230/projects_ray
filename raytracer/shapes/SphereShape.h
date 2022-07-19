@@ -6,7 +6,7 @@
 class SphereRTShape : public BaseRTShape
 {
 public:
-    SphereRTShape(SceneMaterial material, std::shared_ptr<TextureManager> textureManager);
+    SphereRTShape(SceneMaterial material);
 
     virtual bool intersect(const Ray &ray, SurfaceInteraction &oSurInteraction) const override;
 

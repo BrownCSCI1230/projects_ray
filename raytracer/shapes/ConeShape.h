@@ -6,7 +6,7 @@
 class ConeRTShape : public BaseRTShape
 {
 public:
-    ConeRTShape(SceneMaterial material, std::shared_ptr<TextureManager> textureManager);
+    ConeRTShape(SceneMaterial material);
 
     virtual bool intersect(const Ray &ray, SurfaceInteraction &oSurInteraction) const override;
 
