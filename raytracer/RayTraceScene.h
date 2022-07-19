@@ -40,7 +40,7 @@ public:
     // @param ray The Ray object describing the ray in the WORLD SPACE.
     // @param oSurInteraction Upon return, contains the intersection information if there is one.
     // @return A boolean value indicating if there is an intersection with a primitive.
-    bool intersect(const Ray &ray, SurfaceInteraction &oSurInteraction, bool useKdTree) const;
+    bool intersect(const Ray &ray, SurfaceInteraction &oSurInteraction) const;
 
 private:
     void setupCamera(const SceneCameraData &camera);
@@ -63,10 +63,6 @@ private:
 
     // texture manager that accelerates texture loading
     std::shared_ptr<TextureManager> m_textureManager;
-
-    // the intersection checker
-    std::shared_ptr<Intersect> m_naiveIntersect;
-    std::shared_ptr<Intersect> m_kdTree;
 };
 
 #endif // RAYTRACESCENE_H

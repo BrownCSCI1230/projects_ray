@@ -10,9 +10,6 @@
 #include "raytracer/shapes/CylinderShape.h"
 #include "raytracer/shapes/SphereShape.h"
 
-#include "raytracer/intersectcheck/KDTree.h"
-#include "raytracer/intersectcheck/NaiveIntersect.h"
-
 #include "utils/SceneParser.h"
 #include "camera/RayCamera.h"
 
@@ -77,12 +74,6 @@ void RayTraceScene::initialize(bool useTexture) {
     auto endTS = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = endTS-startTS;
     std::cout << "Complete loading scene. Time elapse: " << elapsed_seconds.count() * 1000.f << "ms" << std::endl;
-
-    // construct naive intersection checker
-    m_naiveIntersect = make_shared<NaiveIntersectCheck>(m_shapes);
-
-    // construct KD Tree accelerator
-    m_kdTree = make_shared<KDAccelTree>(m_shapes);
 }
 
 void RayTraceScene::setupCamera(const SceneCameraData &camera) {
@@ -182,10 +173,12 @@ const std::shared_ptr<Camera> RayTraceScene::getCamera() const {
     return m_camera;
 }
 
-bool RayTraceScene::intersect(const Ray &ray, SurfaceInteraction &oSurInteraction, bool useKdTree) const {
-    if (useKdTree) {
-        return m_kdTree->intersect(ray, oSurInteraction);
-    } else {
-        return m_naiveIntersect->intersect(ray, oSurInteraction);
+bool RayTraceScene::intersect(const Ray &ray, SurfaceInteraction &oSurInteraction) const {
+    bool ret = false;
+    for (shared_ptr<BaseRTShape> const &shape : m_shapes) {
+        if (shape->intersect(ray, oSurInteraction)) {
+            ret = true;
+        }
     }
+    return ret;
 }

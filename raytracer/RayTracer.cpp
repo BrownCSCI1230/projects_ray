@@ -2,44 +2,19 @@
 #include "RayTraceScene.h"
 #include "camera/Camera.h"
 #include "raytracer/interface/Light.h"
-#include "raytracer/sampler/NaiveSampler.h"
-#include "raytracer/sampler/AdaptiveSuperSampler.h"
-#include "raytracer/rendertask/RenderTask.h"
 #include "raytracer/shapes/BaseShape.h"
 
 #include <vector>
 #include <iostream>
-#include <QtConcurrent>
 
 using namespace glm;
 using namespace std;
 
 RayTracer::RayTracer(RayTracerConfig config) :
     m_running(false),
-    m_cancel(false),
-    m_threadPool(QThreadPool()),
     m_config(config)
 {
 
-}
-
-void RayTracer::initialize() {
-    m_threadPool.setMaxThreadCount(QThread::idealThreadCount());
-
-    if (m_config.enableSuperSample) {
-        m_pixelSampler = std::make_shared<AdaptiveSuperSampler>();
-    } else {
-        m_pixelSampler = std::make_shared<NaiveSampler>();
-    }
-}
-
-void RayTracer::cancel() {
-    if (!m_running) {
-        return;
-    }
-
-    m_cancel = true;
-    m_threadPool.waitForDone();
 }
 
 void RayTracer::render(RGBA *imageData, const RayTraceScene &scene) {
@@ -52,18 +27,35 @@ void RayTracer::render(RGBA *imageData, const RayTraceScene &scene) {
     std::cout << std::endl << "Begin rendering with size (" << scene.width() << ", " << scene.height() << ")" << std::endl;
 
     m_running = true;
-    m_cancel = false;
 
-    // prepare configuration for all render tasks
-    vector<RenderTaskConfig> allConfigs;
-    prepareRenderTasks(imageData, scene, allConfigs);
+    // obtain the camera transformation matrix
+    std::shared_ptr<Camera> camera = scene.getCamera();
+    auto transformMat = camera->getTransformationMatrix();
 
-    for (auto &config : allConfigs) {
-        RenderTask *task = new RenderTask(config, &m_cancel);
-        m_threadPool.start(task);
+    for (int i = 0; i < scene.height(); i++) {
+        for (int j = 0; j < scene.width(); j++) {
+            float y = (scene.height() - 1 - i + 0.5) / scene.height() - 0.5;
+            float x = (j + 0.5) / scene.width() - 0.5;
+
+            // we need to calculate the actual size of the view plane based on camera parameters
+            float k = 1;
+            float v = 2 * k * glm::tan(0.5 * camera->getHeightAngle() * M_PI / 180.f);
+            float u = v * camera->getAspectRatio();
+
+            glm::vec4 dir(u * x, v * y, -k, 0.f);
+            glm::vec4 pos(0, 0, 0, 1);
+
+            // transform from camera space to world space
+            pos = transformMat * pos;
+            dir = transformMat * dir;
+
+            Ray r(pos, dir, FLT_MAX);
+
+            glm::vec4 color = traceRay(r, scene, RAY_TRACE_MAX_DEPTH);
+            color = color * 255.f;
+            imageData[i * scene.width() + j] = RGBA(color.r, color.g, color.b);
+        }
     }
-
-    m_threadPool.waitForDone();
 
     m_running = false;
 
@@ -74,13 +66,16 @@ void RayTracer::render(RGBA *imageData, const RayTraceScene &scene) {
 }
 
 void RayTracer::renderAsync(RGBA *imageData, const RayTraceScene &scene) {
-    QFuture<void> future = QtConcurrent::run(&RayTracer::render, this, imageData, scene);
+    return;
+}
+
+void RayTracer::cancel() {
     return;
 }
 
 glm::vec4 RayTracer::traceRay(const Ray& r, const RayTraceScene &scene, const int depth) {
     SurfaceInteraction isect(-1);
-    bool foundIntersection = scene.intersect(r, isect, m_config.enableAcceleration);
+    bool foundIntersection = scene.intersect(r, isect);
 
     if (!foundIntersection) {
         // the ray escape the scene or the depth is greater than MAX_DEPTH, terminate
@@ -116,7 +111,7 @@ glm::vec4 RayTracer::traceRay(const Ray& r, const RayTraceScene &scene, const in
 
             Ray shadowRay(origin, isectToLight, tMax);
             SurfaceInteraction shadowIsect(-1);
-            if (scene.intersect(shadowRay, shadowIsect, m_config.enableAcceleration)) {
+            if (scene.intersect(shadowRay, shadowIsect)) {
                 // the shadow ray intersects with another primitive, this light should be ignored.
                 continue;
             }
@@ -150,9 +145,7 @@ glm::vec4 RayTracer::traceRay(const Ray& r, const RayTraceScene &scene, const in
 
     color += diffuseColor + specularColor;
 
-    // calculate refraction
     if (depth > 0) {
-        color += specularRefraction(r, isect, scene, depth);
         color += specularReflection(r, isect, scene, depth);
     }
 
@@ -181,95 +174,4 @@ glm::vec4 RayTracer::specularReflection(const Ray& r, const SurfaceInteraction& 
     vec4 color = traceRay(reflectRay, scene, depth - 1);
     color = scene.getGlobalData().ks * material.cReflective * color;
     return color;
-}
-
-glm::vec4 RayTracer::specularRefraction(const Ray& r, const SurfaceInteraction& isect, const RayTraceScene& scene, const int depth) {
-    SceneMaterial material = isect.primitive->getMaterial();
-    if (!m_config.enableRefraction || material.cTransparent.rgb() == vec3(0.f)) {
-        return glm::vec4(0.f);
-    }
-
-    // The ratio of indices of refraction.
-    float eta = 1.f / material.ior;
-    glm::vec4 normal = isect.normal;
-    glm::vec4 isectPoint = r.origin + isect.t * r.direction;
-    glm::vec4 color(0);
-
-    // The refracted ray from the incident ray and the normal
-    vec4 innerRefractDir = glm::refract(r.direction, normal, eta);
-
-    if (innerRefractDir != vec4(0.f)) {
-        // add tiny offset similar in shadow detection to avoid self-intersection
-        vec4 innerRefractPos = isectPoint + innerRefractDir * 0.001f;
-        Ray innerRefractRay(innerRefractPos, innerRefractDir, FLT_MAX);
-
-        // check the intersection point where the ray leaves the shape primitive
-        SurfaceInteraction exitIsect(-1);
-        bool hasExitPoint = isect.primitive->intersect(innerRefractRay, exitIsect);
-        if (hasExitPoint) {
-            // cast a ray with a similar offset from the original exit point
-            vec4 exitPoint = innerRefractPos + innerRefractDir * exitIsect.t;
-            // the surface normal at the exit point
-            vec4 exitNormal = exitIsect.normal;
-
-            // refract the ray back into empty space
-            vec4 exitRayDir = glm::refract(innerRefractDir, -exitNormal, material.ior);
-            vec4 exitRayPos = exitPoint + exitRayDir * 0.001f;
-
-            // check for further intersection
-            Ray exitRay(exitRayPos, exitRayDir, FLT_MAX);
-            vec4 refractionColor = traceRay(exitRay, scene, depth - 1);
-            color += scene.getGlobalData().kt * material.cTransparent * refractionColor;
-        }
-    }
-
-    return color;
-}
-
-void RayTracer::prepareRenderTasks(RGBA *dstData, const RayTraceScene &scene, std::vector<RenderTaskConfig> &oTasks) {
-    if (!m_config.enableParallelism) {
-        // if parallel rendering is disabled, create only one task
-        RenderTaskConfig config(dstData, this, scene);
-        config.rowStart = 0;
-        config.colStart = 0;
-        config.rowEnd = scene.height();
-        config.colEnd = scene.width();
-        oTasks.emplace_back(config);
-        return;
-    }
-
-    static int minBlockW = 4;
-    static int minBlockH = 4;
-
-    int blockWCnt = scene.width() / 100;
-    int blockHCnt = scene.height() / 100;
-
-    blockWCnt = std::max(blockWCnt, minBlockW);
-    blockHCnt = std::max(blockHCnt, minBlockH);
-
-    int blockW = scene.width() / blockWCnt;
-    int blockH = scene.height() / blockHCnt;
-
-    for (int i = 0; i < blockHCnt; i++) {
-        for (int j = 0; j < blockWCnt; j++) {
-            RenderTaskConfig taskConfig(dstData, this, scene);
-            taskConfig.rowStart = i * blockH;
-            taskConfig.colStart = j * blockW;
-
-            if (i == blockHCnt - 1) {
-                taskConfig.rowEnd = scene.height();
-            } else {
-                taskConfig.rowEnd = (i + 1) * blockH;
-            }
-
-            if (j == blockWCnt - 1) {
-                taskConfig.colEnd = scene.width();
-            } else {
-                taskConfig.colEnd = (j + 1) * blockW;
-            }
-
-            oTasks.emplace_back(taskConfig);
-        }
-    }
-    return;
 }

@@ -1,7 +1,6 @@
 #ifndef RAYTRACER_H
 #define RAYTRACER_H
 
-#include <QThreadPool>
 #include <glm/glm.hpp>
 #include "utils/RGBA.h"
 #include "raytracer/interface/Intersect.h"
@@ -9,9 +8,6 @@
 #define RAY_TRACE_MAX_DEPTH 4
 
 class RayTraceScene;
-class PixelSampler;
-
-struct RenderTaskConfig;
 
 struct RayTracerConfig {
     RayTracerConfig()
@@ -37,10 +33,6 @@ class RayTracer
 public:
     RayTracer(RayTracerConfig config);
 
-    // Initilize the ray tracer.
-    // @warning This function must be called after creating the ray tracer.
-    void initialize();
-
     // Render the scene synchronously.
     // The ray tracer will render the scene and fill the imageData in place.
     // The ray tracer is only capable of running one render session at a time.
@@ -59,30 +51,19 @@ public:
     // If the ray tracer is idle, call on this function will return immediately.
     void cancel();
 
+private:
     // Perform ray tracing in the given scene with a given ray direction
     // @param r The structure that describe the ray to trace.
     // @param scene The scene to render.
     // @param depth The maximum depth for recursive ray tracing.
     glm::vec4 traceRay(const Ray& r, const RayTraceScene &scene, const int depth);
 
-private:
-    void prepareRenderTasks(RGBA *dstData, const RayTraceScene &scene, std::vector<RenderTaskConfig> &oTasks);
-
     glm::vec4 specularReflection(const Ray& r, const SurfaceInteraction& isect, const RayTraceScene& scene, const int depth);
-    glm::vec4 specularRefraction(const Ray& r, const SurfaceInteraction& isect, const RayTraceScene& scene, const int depth);
 
 private:
     bool m_running;
 
-    volatile bool m_cancel;
-
-    QThreadPool m_threadPool;
-
     RayTracerConfig m_config;
-
-    std::shared_ptr<PixelSampler> m_pixelSampler;
-
-    friend class RenderTask;
 };
 
 #endif // RAYTRACER_H

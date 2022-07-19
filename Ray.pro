@@ -14,14 +14,9 @@ SOURCES += \
     main.cpp \
     raytracer/RayTraceScene.cpp \
     raytracer/RayTracer.cpp \
-    raytracer/intersectcheck/KDTree.cpp \
-    raytracer/intersectcheck/NaiveIntersect.cpp \
     raytracer/lights/DirectionalLight.cpp \
     raytracer/lights/PointLight.cpp \
     raytracer/lights/SpotLight.cpp \
-    raytracer/rendertask/RenderTask.cpp \
-    raytracer/sampler/AdaptiveSuperSampler.cpp \
-    raytracer/sampler/NaiveSampler.cpp \
     raytracer/shapes/BaseShape.cpp \
     raytracer/shapes/ConeShape.cpp \
     raytracer/shapes/CubeShape.cpp \
@@ -44,15 +39,9 @@ HEADERS += \
     raytracer/RayTracer.h \
     raytracer/interface/Intersect.h \
     raytracer/interface/Light.h \
-    raytracer/intersectcheck/KDTree.h \
-    raytracer/intersectcheck/NaiveIntersect.h \
     raytracer/lights/DirectionalLight.h \
     raytracer/lights/PointLight.h \
     raytracer/lights/SpotLight.h \
-    raytracer/rendertask/RenderTask.h \
-    raytracer/sampler/AdaptiveSuperSampler.h \
-    raytracer/sampler/NaiveSampler.h \
-    raytracer/sampler/PixelSampler.h \
     raytracer/shapes/BaseShape.h \
     raytracer/shapes/ConeShape.h \
     raytracer/shapes/CubeShape.h \
