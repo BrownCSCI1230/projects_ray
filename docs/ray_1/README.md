@@ -61,7 +61,11 @@ In order to generate and cast rays into the scene, you will need to shoot rays t
 
 <details>
   <summary> Can we do better? </summary>
-  Of course you can have more samples. And having only one sample per pixel is definitely going to cause aliasing. You have encountered the notion of aliasing in previous lectures and in the last assignment. 
+  The problem with only one ray per pixel is that it will cause aliasing, and you have encounter this notion in previous lectures and assignment.
+
+  Yes, of course we can do better, and one obviously way is to have multiple samples at each pixel, which is literally called multi-sampling anti-aliasing, or MSAA in short.
+
+  Here is a pair of images to show you the difference with and without super-sampling.
 
   <p align="center">
     <img src="./cast_ray.png" width="80%">
@@ -70,7 +74,7 @@ In order to generate and cast rays into the scene, you will need to shoot rays t
     </figcaption>
   </p>
   
-  There are various ways to resolve this issue. Check the extra credit section if you are interested.
+  There are various ways to resolve this aliasing. Check the extra credit section if you are interested.
 </details>
 
 
@@ -91,7 +95,7 @@ Here are some sample outputs of what your ray tracer should be capable of by the
   <p align="center">
     <img src="./cast_ray.png" width="80%">
     <figcaption align = "center"> <b>Fig. 3</b> 
-    Sample output
+    Sample outputs
     </figcaption>
   </p>
 
