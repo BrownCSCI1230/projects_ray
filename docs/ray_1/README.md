@@ -25,7 +25,7 @@ In this assignment, you will implement the **basic part** of your ray tracer, an
 The following diagram shows an example of one ray shooting through a pixel on the viewplane and intersecting with a sphere in the scene. You ultimate goal of this assignment is to implement this process with the given scene data.
 
 <p align="center">
-    <img src="./cast_ray.png" width="80%">
+    <img src="./img/cast_ray.png" width="80%">
     <figcaption align = "center"> <b>Fig. 1</b> 
     Casting ray from camera
     </figcaption>
@@ -49,9 +49,9 @@ This assignment is out of 100 points
 
 ### 2.0 Parsing the scene
 
-We are going to use the same scenefile from the parser lab to describe a scene. For your ray tracer, you will load the scene from a scenefile, parse it, and then render the scene using the ray tracing algorithm. 
+You are going to use the same scenefile from the parser lab to describe a scene. For your ray tracer, you will load the scene from a scenefile, parse it, and then render the scene with the ray tracing algorithm. 
 
-Hence, first thing first, you need to be able to correctly parse the scene and you have already completed this part in the parsing lab. **If you haven't, please make sure you complete the parsing lab first before you start working on the ray project.**
+Hence, first thing first, you need to be able to correctly parse the scene, which you have already completed in the parsing lab. **If you haven't, please make sure you finish the parsing lab first before working on the ray project.**
 
 Please refer to section 3.1 on where to implement the parser.
 
@@ -68,9 +68,10 @@ In order to generate and cast rays into the scene, you will need to shoot rays t
   Here is a pair of images to show you the difference with and without super-sampling.
 
   <p align="center">
-    <img src="./cast_ray.png" width="80%">
+    <img src="./img/no_MSAA.png" width="45%">
+    <img src="./img/MSAA.png" width="45%">
     <figcaption align = "center"> <b>Fig. 2</b> 
-    Comparison between the baseline output and the super-sampling applied output
+    baseline output and MSAA output
     </figcaption>
   </p>
   
@@ -88,13 +89,19 @@ In order to find an intersection point, we first have to define our shapes. As c
 - Sphere
 
 ### 2.3 “Illumination”
-In this assignment, you are not required to handle any lighting. Yet, it would still be nice to be able to distinguish between different primitives in the scene and verify the implementation. To do this, **simply use the normal value as the color**.
+In this assignment, you are not required to handle any lighting. Yet, it would still be nice to be able to distinguish between different primitives in the scene and verify the implementation. 
 
-Here are some sample outputs of what your ray tracer should be capable of by the end of this assignment.
+For the scope of this assignment, use the **WORLD SPACE normal value** at the intersection point as the pixel RGB color. You may have noticed that normal value ranges from -1 to 1, but RGB color only ranges from 0 to 1. Hence, a mapping is required to convert the value. You can refer to the answer to Question 4.2 in the ray 1 ALGO for the correct mapping.
+
+### 2.4 Results
+
+Here are some sample images of what your ray tracer should be capable to render by the end of this assignment.
 
   <p align="center">
-    <img src="./cast_ray.png" width="80%">
-    <figcaption align = "center"> <b>Fig. 3</b> 
+    <img src="./img/sample_output_1.png" width="30%">
+    <img src="./img/sample_output_2.png" width="30%">
+    <img src="./img/sample_output_3.png" width="30%">
+    <figcaption align = "center"> <b>Fig. 4</b> 
     Sample outputs
     </figcaption>
   </p>
@@ -103,22 +110,36 @@ Here are some sample outputs of what your ray tracer should be capable of by the
 
 ### 3.1 Codebase
 
+For this assignment, we are going to use the command line interface rather than the UI interface. The stencil reads from a config file and perform the parameter parsing. 
+
+This config file is called `QSettings` and it has the extension of `.ini`. The is a sample config file in the `config` directory. You can take a look at `main.cpp` to figure out how the config file is parsed. 
+
 The codebase is structured with three modules.
 
 - The `utils` module provides the utilities you will use for the ray tracer. You should implement the `SceneParser` as you have done similarly in the parsing lab.
 
-- The `camera` module contains everything related to camera operation. The `Camera.h` is an interface for the camera which tells you what a camera should be fully capable of. However, for the purpose of the Ray assignment, you won't need its full functionality, but only a tiny part of it. The `RayCamera` is the class that you are actually going to implement. You should conform to the `Camera` interface when implementing `RayCamera`.
+- The `camera` module contains everything related to camera operation. 
+  - The `Camera.h` defines an interface for the camera which tells you what a camera should be fully capable of. However, for the purpose of the Ray assignment, you won't need its full functionality, but only a tiny part of it. All the methods that you don't have to worry about are already commented. You will learn to deal with them in the rest of the course. They are provided just for interface consistency.
+  - The `RayCamera` is the class that you are actually going to implement. You should conform to the `Camera` interface when implementing `RayCamera`. 
 
-- The raytracer module is the main component of this assignment, although it only contains two classes, `RayTraceScene` and `RayTracer`. The class names already give out what they are used for. 
-  - In `RayTraceScene`, you will construct the scene using the RenderData you filled in the `SceneParser`
-  - In `RayTracer`, You will implement the ray tracing algorithm. It takes in a `RayTraceScene` as the render parameter.
+- The `raytracer` module is the main component of this assignment. You will write the majority of your code here. Currently, it only contains two classes, `RayTraceScene` and `RayTracer`. The class names already give out what they are used for. 
+  - In `RayTraceScene`, you will construct the scene using the `RenderData` you filled in the `SceneParser`
+  - In `RayTracer`, You will implement the ray tracing algorithm. It takes in a `RayTracerConfig` during initialization.
+
+As mentioned in the general handout, you have the freedom to add any class you think that is necessary for this assignment. But please do keep the existing interface intact, otherwise the auto-grader may not be able to grade your assignment correctly.
+
+You may notice that the stencil already has some existing config parameters. Some of them are for the next assignments, others are for optional extra credits. However, if you feel like implementing an extra feature that is not included in the existing config parameters, feel free to add the new parameter to your `.ini` file and the `RayTracerConfig`. You may also want to document this change in your README to help TA grading.
 
 
 ### 3.2 Design
 
 Please do keep in mind that you are only implementing parts of your ray tracer, and you will keep working in the same repo in the next assignment. 
 
-When making your design choices, think a bit further about what could be needed in the next assignment. You can take a look at the handout for the next assignment to get some idea on what you are expected to do.
+When making your design choices, think a bit further about what could be needed in the next assignment, and whether your design provides the flexibility for you to easily extend its feature. 
+
+You can take a look at the handout for the next assignment to get some idea on what are the expectations.
+
+To roughly sum it up, you are required to implement texture mapping, different light sources, and phong lighting model with shadow and reflection in your next assignment.
 
 ## 4 Extra Credits
 
@@ -126,10 +147,7 @@ When making your design choices, think a bit further about what could be needed 
     * Octree
     * BVH
     * KD-Tree
-* **Parallelization**: There are many ways to parallelize your code. It can be as simple as one line of code in OpenMP. It can also go up to a carefully designed task scheduler that acts like Cinebench. Evidently, the grades you receive will be based on the complexity of your implementation. If you have more questions on the rubric and design choice, come to TA hours and we are happy to help.
-    * OpenMP
-    * Qt based implementation that has limited control of scheduling
-    * Qt based implementation that has concrete control on scheduling
+* **Parallelization**: There are many ways to parallelize your code. It can be as simple as one line of code in OpenMP. It can also go up to a carefully designed task scheduler that acts like Cinebench. Evidently, the grades you receive will be based on the complexity of your implementation. If you have more questions on the rubric and design choice, come to TA hours and we are happy to help. 
 * **Anti-aliasing**: As we are only shooting one ray through the center of each pixel, it can be expected that there will be aliasing. In your filter project, you’ve learnt some ways to fix aliasing as a post-processing approach. Try to figure out if you can integrate your filter into your ray tracer as a post-processing module for your output image.
 *  **Super-sampling**: As mentioned above, the source of aliasing is the low number of samples. So the most direct way to resolve it is to increase the number of samples. Here are a few ways to do super-sampling.
     * Naive super-sampling
@@ -137,7 +155,11 @@ When making your design choices, think a bit further about what could be needed 
 
 ## 5 README
 
-You must submit a README in Markdown format. This file should contain basic information about your design choices. You should also include any known bugs or any extra credits you’ve implemented. Please note that the README is worth **5 points** of your assignment grade!
+You must submit a README in Markdown format. This file should contain basic information about your design choices. You should also include any known bugs or any extra credits you’ve implemented. 
+
+For extra credits, please describe what you've done and roughly point out the related code segment. If you implement any extra feature that requires you to add a parameter for the QSettings and the `RayTracerConfig`, please also document it accordingly so that the TAs won't miss anything when grading your assignment.
+
+Please note that the README is worth **5 points** of your assignment grade!
 
 ## 6 Handling in
 

@@ -31,7 +31,7 @@ For the purpose of the algo, you will use k to express the depth of the view pla
 
 The following diagram demonstrate what the view plane is.
 <p align="center">
-    <img src="./viewplane.png" width="80%">
+    <img src="./img/viewplane.png" width="80%">
     <figcaption align = "center"> <b>Fig. 1</b> 
     Viewplane example
     </figcaption>
@@ -55,22 +55,22 @@ Hints: The intersection points you compute are only possible intersection points
 
 ## 4 Illuminating samples
 
-**[2 points]4.1** In the first part of the ray project, you are **NOT** required to handle any lighting. Instead, you will only need to use the normal at the intersection point as its color. Therefore, you have to compute the normal correctly! 
+**[2 points]4.1** In the first part of the ray project, you are **NOT** required to handle any lighting. Instead, you will only need to use the **WORLD SPACE NORMAL** at the intersection point as its color. Therefore, you have to compute the normal correctly! 
 
 Given the following values, write down the equation for the normal vector $\vec{n_w}$ in world-space
 
 - $\vec{n_o}$ : normal vector in object-space. 
 - $M$ : object’s modeling transformation  
 
-**[2 points]4.2** Now you have the normal in the world space, it's time for you to set it as the final color, but there is one more thing to do. Since RGB color only range from 0.0 to 1.0, and normal value ranges between -1 and 1, we have to map them correctly. 
+**[2 points]4.2** Now you have the normal in the world space, it's time for you to set it as the final color, but there is one more thing to do. Since RGB color only range from 0 to 1, and normal value ranges between -1 and 1, it has to be mapped correctly.
 
 Write down a way to linearly map the values from normal value to RGB value.
 
 If you do the above computation correctly in your project, you should see something like this on a sphere.
 
 <p align="center">
-    <img src="./viewplane.png" width="80%">
+    <img src="./img/sample_output_3.png" width="80%">
     <figcaption align = "center"> <b>Fig. 2</b> 
-    Sphere with normal color
+    Spheres with normal color
     </figcaption>
 </p>

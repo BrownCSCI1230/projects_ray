@@ -37,13 +37,13 @@ bool SceneParser::parse(std::string filepath, RenderData &renderData) {
     glm::mat4 matrix(1.0f);
 
     auto startTS = std::chrono::system_clock::now();
-    std::cout << std::endl << "Begin loading scene " << filepath << std::endl;
+    std::cout << std::endl << "Begin parsing scene " << filepath << std::endl;
 
     dfsParseSceneNode(renderData, root, matrix);
 
     auto endTS = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = endTS - startTS;
-    std::cout << "Complete loading scene. Time elapse: " << elapsed_seconds.count() * 1000.f << "ms" << std::endl;
+    std::cout << "Complete parsing scene. Time elapse: " << elapsed_seconds.count() * 1000.f << "ms" << std::endl;
 
     /* TA SOLUTION END */
 
