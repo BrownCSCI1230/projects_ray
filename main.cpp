@@ -26,7 +26,6 @@ int main(int argc, char *argv[])
     }
 
     QSettings settings( positionalArgs[0], QSettings::IniFormat );
-    QStringList keys = settings.allKeys();
     QString iScenePath = settings.value("IO/scene").toString();
     QString oImagePath = settings.value("IO/output").toString();
 
