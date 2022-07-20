@@ -11,13 +11,6 @@ SphereRTShape::SphereRTShape(SceneMaterial material) :
 
 }
 
-Bound SphereRTShape::getObjectBound() const {
-    Bound b;
-    b.pMax = vec4(m_R, m_R, m_R, 1.0f);
-    b.pMin = vec4(-m_R, -m_R, -m_R, 1.0f);
-    return b;
-}
-
 glm::vec4 SphereRTShape::getNormal(const glm::vec4 &intersection) const {
     vec4 normal = vec4(intersection.x, intersection.y, intersection.z, 0.f);
     normal = m_ICTM_T * normal;

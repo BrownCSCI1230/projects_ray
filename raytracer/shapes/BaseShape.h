@@ -5,7 +5,6 @@
 #include <glm/glm.hpp>
 #include "utils/SceneData.h"
 #include "raytracer/interface/Intersect.h"
-#include "raytracer/utils/BoundUtils.h"
 
 class TextureManager;
 
@@ -43,12 +42,6 @@ public:
     // @param oColor On return, contains the pixel color if no error happens.
     // @return A boolean value indicating if the pixel color of the texture is successfully retrieved.
     bool getTexture(glm::vec2 uv, glm::vec4 &oColor) const;
-
-    // Get the boundary of the primitive in OBJECT SPACE.
-    virtual Bound getObjectBound() const = 0;
-
-    // Get the boundary of the primitive in WORLD SPACE.
-    virtual Bound getWorldBound() const;
 
     // Check if the ray intersects with the shape.
     // @param ray The Ray object that describe a ray in the WORLD SPACE.

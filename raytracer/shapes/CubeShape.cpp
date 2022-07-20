@@ -18,14 +18,6 @@ CubeRTShape::CubeRTShape(SceneMaterial material) :
     m_normals[5] = {0.f, 0.f, -1.f};
 }
 
-Bound CubeRTShape::getObjectBound() const {
-    Bound b;
-    b.pMax = vec4(m_edge, m_edge, m_edge, 1.0f);
-    b.pMin = vec4(-m_edge, -m_edge, -m_edge, 1.0f);
-    return b;
-}
-
-
 glm::vec4 CubeRTShape::getNormal(int idx) const {
     // transform the intersection point from world space to object space
     vec3 normal = mat3(transpose(m_ICTM)) * m_normals[idx];

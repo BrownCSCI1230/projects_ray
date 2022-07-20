@@ -75,22 +75,6 @@ bool BaseRTShape::getTexture(glm::vec2 uv, glm::vec4 &oColor) const {
     return true;
 }
 
-Bound BaseRTShape::getWorldBound() const {
-    Bound b = getObjectBound();
-    Bound ret;
-    ret.pMin = m_CTM * b.pMin;
-    ret.pMax = ret.pMin;
-
-    ret.unite(m_CTM * vec4(b.pMax.x, b.pMin.y, b.pMin.z, 1.f));
-    ret.unite(m_CTM * vec4(b.pMin.x, b.pMax.y, b.pMin.z, 1.f));
-    ret.unite(m_CTM * vec4(b.pMin.x, b.pMin.y, b.pMax.z, 1.f));
-    ret.unite(m_CTM * vec4(b.pMin.x, b.pMax.y, b.pMax.z, 1.f));
-    ret.unite(m_CTM * vec4(b.pMax.x, b.pMax.y, b.pMin.z, 1.f));
-    ret.unite(m_CTM * vec4(b.pMax.x, b.pMin.y, b.pMax.z, 1.f));
-    ret.unite(m_CTM * vec4(b.pMax.x, b.pMax.y, b.pMax.z, 1.f));
-    return ret;
-}
-
 bool BaseRTShape::loadTexture(shared_ptr<TextureManager> textureManager) {
     if (!m_material.textureMap.isUsed) {
         return true;

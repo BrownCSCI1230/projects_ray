@@ -10,8 +10,6 @@ public:
 
     virtual bool intersect(const Ray &ray, SurfaceInteraction &oSurInteraction) const override;
 
-    virtual Bound getObjectBound() const override;
-
 private:
     glm::vec4 getNormalTop() const;
     glm::vec4 getNormalBottom() const;

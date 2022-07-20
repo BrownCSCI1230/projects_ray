@@ -47,7 +47,6 @@ HEADERS += \
     raytracer/shapes/CubeShape.h \
     raytracer/shapes/CylinderShape.h \
     raytracer/shapes/SphereShape.h \
-    raytracer/utils/BoundUtils.h \
     raytracer/utils/TextureManager.h \
     utils/RGBA.h \
     utils/SceneData.h \

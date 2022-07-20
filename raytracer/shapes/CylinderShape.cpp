@@ -17,13 +17,6 @@ CylinderRTShape::CylinderRTShape(SceneMaterial material) :
 
 }
 
-Bound CylinderRTShape::getObjectBound() const {
-    Bound b;
-    b.pMax = vec4(m_R, m_maxY, m_R, 1.0f);
-    b.pMin = vec4(-m_R, m_minY, -m_R, 1.0f);
-    return b;
-}
-
 glm::vec4 CylinderRTShape::getNormalTop() const {
     vec4 normal = vec4(0.f, 1.f, 0.f, 0.f);
     normal = m_ICTM_T * normal;

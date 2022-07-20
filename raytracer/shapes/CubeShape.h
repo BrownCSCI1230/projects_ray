@@ -11,8 +11,6 @@ public:
 
     virtual bool intersect(const Ray &ray, SurfaceInteraction &oSurInteraction) const override;
 
-    virtual Bound getObjectBound() const override;
-
 private:
     // surface index mapping
     // 0: right
