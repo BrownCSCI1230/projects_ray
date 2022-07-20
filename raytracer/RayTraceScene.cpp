@@ -1,9 +1,4 @@
 #include "RayTraceScene.h"
-#include "raytracer/utils/TextureManager.h"
-
-#include "raytracer/lights/SpotLight.h"
-#include "raytracer/lights/PointLight.h"
-#include "raytracer/lights/DirectionalLight.h"
 
 #include "raytracer/shapes/CubeShape.h"
 #include "raytracer/shapes/ConeShape.h"
@@ -25,10 +20,9 @@ RayTraceScene::RayTraceScene(int width, int height, const struct RenderData &met
     m_height(height),
     m_metaData(metaData),
     m_globalData(metaData.globalData),
-    m_lights(vector<shared_ptr<Light> >()),
+//    m_lights(vector<shared_ptr<Light> >()),
     m_shapes(vector<shared_ptr<BaseRTShape> >(metaData.shapes.size())),
-    m_camera(make_shared<RayCamera>()),
-    m_textureManager(make_shared<TextureManager>())
+    m_camera(make_shared<RayCamera>())
 {
 
 }
@@ -41,7 +35,7 @@ void RayTraceScene::initialize(bool useTexture) {
     setupCamera(m_metaData.cameraData);
 
     // setup the lights
-    setupLights(m_metaData.lights);
+//    setupLights(m_metaData.lights);
 
     // Since the workload is pretty light,
     // there is no need to spread it onto too many threads
@@ -82,32 +76,10 @@ void RayTraceScene::setupCamera(const SceneCameraData &camera) {
     m_camera->orientLook(camera.pos, camera.look, camera.up);
 }
 
-void RayTraceScene::setupLights(const std::vector<SceneLightData> &lights) {
-    m_lights.reserve(lights.size());
-
-    for (const auto &li : lights) {
-        switch (li.type) {
-        case LightType::LIGHT_POINT:
-        {
-            m_lights.emplace_back(make_shared<PointLight>(li.color, li.pos, li.function));
-            break;
-        }
-        case LightType::LIGHT_DIRECTIONAL:
-        {
-            m_lights.emplace_back(make_shared<DirectionalLight>(li.color, li.dir));
-            break;
-        }
-        case LightType::LIGHT_SPOT:
-        {
-            m_lights.emplace_back(make_shared<SpotLight>(li.color, li.pos, li.dir, li.function, li.angle, li.penumbra));
-            break;
-        }
-        default:
-            break;
-        }
-    }
-    return;
-}
+//void RayTraceScene::setupLights(const std::vector<SceneLightData> &lights) {
+//    m_lights.reserve(lights.size());
+//    return;
+//}
 
 void RayTraceScene::loadPrimitives(const struct RenderData &metaData, int start, int end, bool useTexture) {
     for (int i = start; i < end; i++) {
@@ -144,9 +116,6 @@ void RayTraceScene::loadPrimitives(const struct RenderData &metaData, int start,
 
         if (rtShape) {
             rtShape->setCTM(shape.ctm);
-            if (useTexture) {
-                rtShape->loadTexture(m_textureManager);
-            }
             m_shapes[i] = rtShape;
         }
     }
@@ -163,10 +132,6 @@ const int& RayTraceScene::height() const {
 
 const SceneGlobalData& RayTraceScene::getGlobalData() const {
     return m_globalData;
-}
-
-const std::vector<std::shared_ptr<Light> >& RayTraceScene::getLights() const {
-    return m_lights;
 }
 
 const std::shared_ptr<Camera> RayTraceScene::getCamera() const {

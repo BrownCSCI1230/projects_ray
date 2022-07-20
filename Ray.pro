@@ -14,15 +14,11 @@ SOURCES += \
     main.cpp \
     raytracer/RayTraceScene.cpp \
     raytracer/RayTracer.cpp \
-    raytracer/lights/DirectionalLight.cpp \
-    raytracer/lights/PointLight.cpp \
-    raytracer/lights/SpotLight.cpp \
     raytracer/shapes/BaseShape.cpp \
     raytracer/shapes/ConeShape.cpp \
     raytracer/shapes/CubeShape.cpp \
     raytracer/shapes/CylinderShape.cpp \
     raytracer/shapes/SphereShape.cpp \
-    raytracer/utils/TextureManager.cpp \
     utils/RGBA.cpp \
     utils/SceneParser.cpp \
     utils/ScenefileReader.cpp
@@ -38,17 +34,11 @@ HEADERS += \
     raytracer/RayTraceScene.h \
     raytracer/RayTracer.h \
     raytracer/interface/Intersect.h \
-    raytracer/interface/Light.h \
-    raytracer/lights/DirectionalLight.h \
-    raytracer/lights/PointLight.h \
-    raytracer/lights/SpotLight.h \
     raytracer/shapes/BaseShape.h \
     raytracer/shapes/ConeShape.h \
     raytracer/shapes/CubeShape.h \
     raytracer/shapes/CylinderShape.h \
     raytracer/shapes/SphereShape.h \
-    raytracer/utils/BoundUtils.h \
-    raytracer/utils/TextureManager.h \
     utils/RGBA.h \
     utils/SceneData.h \
     utils/SceneParser.h \

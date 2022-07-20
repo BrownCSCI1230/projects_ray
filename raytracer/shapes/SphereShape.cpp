@@ -11,37 +11,11 @@ SphereRTShape::SphereRTShape(SceneMaterial material) :
 
 }
 
-Bound SphereRTShape::getObjectBound() const {
-    Bound b;
-    b.pMax = vec4(m_R, m_R, m_R, 1.0f);
-    b.pMin = vec4(-m_R, -m_R, -m_R, 1.0f);
-    return b;
-}
-
 glm::vec4 SphereRTShape::getNormal(const glm::vec4 &intersection) const {
     vec4 normal = vec4(intersection.x, intersection.y, intersection.z, 0.f);
     normal = m_ICTM_T * normal;
     normal[3] = 0.f;
     return glm::normalize(normal);
-}
-
-glm::vec2 SphereRTShape::getUV(const glm::vec4 &intersection) const {
-    float u, v;
-
-    float Py = glm::clamp(intersection.y, -0.5f, 0.5f);
-    v = m_R - asin(Py / m_R) / M_PI;
-
-    if (v <= 0.f || v >= 1.f) {
-        u = 0.5f;
-    } else {
-        float theta = std::atan2(intersection.z, intersection.x);
-        if (theta < 0) {
-            u = -theta / (2 * M_PI);
-        } else {
-            u = 1.f - theta / (2 * M_PI);
-        }
-    }
-    return vec2(u, v);
 }
 
 bool SphereRTShape::intersect(const Ray &ray, SurfaceInteraction &oSurInteraction) const {
@@ -85,7 +59,7 @@ bool SphereRTShape::intersect(const Ray &ray, SurfaceInteraction &oSurInteractio
 
     glm::vec4 intersection = p + pq.top().t * d;
     glm::vec4 normal = getNormal(intersection);
-    glm::vec2 uv = getUV(intersection);
+    glm::vec2 uv;
     oSurInteraction = SurfaceInteraction(pq.top().t, normal, uv);
     oSurInteraction.primitive = (BaseRTShape *)this;
 

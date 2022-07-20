@@ -17,13 +17,6 @@ ConeRTShape::ConeRTShape(SceneMaterial material) :
 
 }
 
-Bound ConeRTShape::getObjectBound() const {
-    Bound b;
-    b.pMax = vec4(m_R, m_R, m_R, 1.0f);
-    b.pMin = vec4(-m_R, -m_R, -m_R, 1.0f);
-    return b;
-}
-
 glm::vec4 ConeRTShape::getNormalDisk() const {
     vec4 normal = vec4(0.f, -1.f, 0.f, 0.f);
     normal = m_ICTM_T * normal;
@@ -41,31 +34,6 @@ glm::vec4 ConeRTShape::getNormalHat(const glm::vec4 &intersection) const {
     normal = m_ICTM_T * normal;
     normal[3] = 0.f;
     return glm::normalize(normal);
-}
-
-glm::vec2 ConeRTShape::getUVDisk(const glm::vec4 &intersection) const {
-    float u, v;
-    u = intersection.x + m_R;
-    v = m_R - intersection.z;
-    return vec2(u, v);
-}
-
-glm::vec2 ConeRTShape::getUVHat(const glm::vec4 &intersection) const {
-    float u, v;
-    v = m_R - intersection.y;
-    if (v <= 0.f) {
-        // if oV is less than or equal to 0, than it's sigularity for u,
-        // so we choose a fixed u value: 0.5
-        u = 0.5f;
-    } else {
-        float theta = std::atan2(intersection.z, intersection.x);
-        if (theta < 0) {
-            u = -theta / (2 * M_PI);
-        } else {
-            u = 1.f - theta / (2 * M_PI);
-        }
-    }
-    return vec2(u, v);
 }
 
 bool ConeRTShape::intersect(const Ray &ray, SurfaceInteraction &oSurInteraction) const {
@@ -119,13 +87,11 @@ bool ConeRTShape::intersect(const Ray &ray, SurfaceInteraction &oSurInteraction)
     case CONE_DISK_IDX:
     {
         normal = getNormalDisk();
-        uv = getUVDisk(isectP);
         break;
     }
     case CONE_HAT_IDX:
     {
         normal = getNormalHat(isectP);
-        uv = getUVHat(isectP);
         break;
     }
     default:

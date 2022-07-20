@@ -9,9 +9,6 @@
 class BaseRTShape;
 class Camera;
 class RayCamera;
-class Light;
-class TextureManager;
-
 struct RenderData;
 
 class RayTraceScene
@@ -30,9 +27,6 @@ public:
     // The getter of the global data of the scene
     const SceneGlobalData& getGlobalData() const;
 
-    // The getter of the light data of the scene
-    const std::vector<std::shared_ptr<Light> >& getLights() const;
-
     // The getter of the camera instance of the scene
     const std::shared_ptr<Camera> getCamera() const;
 
@@ -44,7 +38,7 @@ public:
 
 private:
     void setupCamera(const SceneCameraData &camera);
-    void setupLights(const std::vector<SceneLightData> &lights);
+//    void setupLights(const std::vector<SceneLightData> &lights);
 
     void loadPrimitives(const struct RenderData &metaData, int start, int end, bool useTexture);
 
@@ -55,14 +49,10 @@ private:
     // scene metadata
     SceneGlobalData m_globalData;
 
-    std::vector<std::shared_ptr<Light> > m_lights;
     std::vector<std::shared_ptr<BaseRTShape> > m_shapes;
 
     // scene camera instance
     std::shared_ptr<RayCamera> m_camera;
-
-    // texture manager that accelerates texture loading
-    std::shared_ptr<TextureManager> m_textureManager;
 };
 
 #endif // RAYTRACESCENE_H

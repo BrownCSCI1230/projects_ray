@@ -18,65 +18,10 @@ CubeRTShape::CubeRTShape(SceneMaterial material) :
     m_normals[5] = {0.f, 0.f, -1.f};
 }
 
-Bound CubeRTShape::getObjectBound() const {
-    Bound b;
-    b.pMax = vec4(m_edge, m_edge, m_edge, 1.0f);
-    b.pMin = vec4(-m_edge, -m_edge, -m_edge, 1.0f);
-    return b;
-}
-
-
 glm::vec4 CubeRTShape::getNormal(int idx) const {
     // transform the intersection point from world space to object space
     vec3 normal = mat3(transpose(m_ICTM)) * m_normals[idx];
     return vec4(normalize(normal), 0.f);
-}
-
-glm::vec2 CubeRTShape::getUV(const glm::vec4 &intersection, int idx) const {
-    float u, v;
-    switch (idx) {
-        case 0:
-        {
-            u = m_edge - intersection.z;
-            v = m_edge - intersection.y;
-            break;
-        }
-        case 1:
-        {
-            u = intersection.z + m_edge;
-            v = m_edge - intersection.y;
-            break;
-        }
-        case 2:
-        {
-            u = intersection.x + m_edge;
-            v = intersection.z + m_edge;
-            break;
-        }
-        case 3:
-        {
-            u = intersection.x + m_edge;
-            v = m_edge - intersection.z;
-            break;
-        }
-        case 4:
-        {
-            u = intersection.x + m_edge;
-            v = m_edge - intersection.y;
-            break;
-        }
-        case 5:
-        {
-            u = m_edge - intersection.x;
-            v = m_edge - intersection.y;
-            break;
-        }
-        default:
-        {
-            // This should not happen, hence return false indicating an error.
-        }
-    }
-    return vec2(u, v);
 }
 
 bool CubeRTShape::intersect(const Ray &ray, SurfaceInteraction &oSurInteraction) const {
@@ -147,9 +92,8 @@ bool CubeRTShape::intersect(const Ray &ray, SurfaceInteraction &oSurInteraction)
     }
 
     ray.tMax = pq.top().t;
-    vec4 isectP = p + pq.top().t * d;
     vec4 normal = getNormal(pq.top().idx);
-    vec2 uv = getUV(isectP, pq.top().idx);
+    vec2 uv;
 
     oSurInteraction = SurfaceInteraction(pq.top().t, normal, uv);
     oSurInteraction.primitive = (BaseRTShape *)this;

@@ -58,8 +58,6 @@ private:
     // @param depth The maximum depth for recursive ray tracing.
     glm::vec4 traceRay(const Ray& r, const RayTraceScene &scene, const int depth);
 
-    glm::vec4 specularReflection(const Ray& r, const SurfaceInteraction& isect, const RayTraceScene& scene, const int depth);
-
 private:
     bool m_running;
 

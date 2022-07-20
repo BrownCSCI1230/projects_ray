@@ -5,9 +5,6 @@
 #include <glm/glm.hpp>
 #include "utils/SceneData.h"
 #include "raytracer/interface/Intersect.h"
-#include "raytracer/utils/BoundUtils.h"
-
-class TextureManager;
 
 struct SurfaceIntersection {
     float t;
@@ -27,28 +24,11 @@ public:
     BaseRTShape(SceneMaterial material);
     virtual ~BaseRTShape();
 
-    // Load the texture with the texture manager.
-    // @param textureManager The textureManager is a helper class for accelerating texture image loading.
-    // @return A boolean value indicating whether the texture is successfully loaded.
-    bool loadTexture(std::shared_ptr<TextureManager> textureManager);
-
     // Set the cumulated transformation matrix of the object.
     // FROM OBJECT SPACE TO WORLD SPACE.
     void setCTM(const glm::mat4 &trans);
 
     SceneMaterial getMaterial() const;
-
-    // Obtain the texture pixel color at the intersection point.
-    // @param uv The uv coordinates.
-    // @param oColor On return, contains the pixel color if no error happens.
-    // @return A boolean value indicating if the pixel color of the texture is successfully retrieved.
-    bool getTexture(glm::vec2 uv, glm::vec4 &oColor) const;
-
-    // Get the boundary of the primitive in OBJECT SPACE.
-    virtual Bound getObjectBound() const = 0;
-
-    // Get the boundary of the primitive in WORLD SPACE.
-    virtual Bound getWorldBound() const;
 
     // Check if the ray intersects with the shape.
     // @param ray The Ray object that describe a ray in the WORLD SPACE.

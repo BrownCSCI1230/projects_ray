@@ -17,13 +17,6 @@ CylinderRTShape::CylinderRTShape(SceneMaterial material) :
 
 }
 
-Bound CylinderRTShape::getObjectBound() const {
-    Bound b;
-    b.pMax = vec4(m_R, m_maxY, m_R, 1.0f);
-    b.pMin = vec4(-m_R, m_minY, -m_R, 1.0f);
-    return b;
-}
-
 glm::vec4 CylinderRTShape::getNormalTop() const {
     vec4 normal = vec4(0.f, 1.f, 0.f, 0.f);
     normal = m_ICTM_T * normal;
@@ -43,31 +36,6 @@ glm::vec4 CylinderRTShape::getNormalBarrel(const glm::vec4 &intersection) const 
     normal = m_ICTM_T * normal;
     normal[3] = 0.f;
     return glm::normalize(normal);
-}
-
-glm::vec2 CylinderRTShape::getUVTop(const glm::vec4 &intersection) const {
-    float oU = intersection.x + m_R;
-    float oV = intersection.z + m_R;
-    return vec2(oU, oV);
-}
-
-glm::vec2 CylinderRTShape::getUVBottom(const glm::vec4 &intersection) const {
-    float oU = intersection.x + m_R;
-    float oV = m_R - intersection.z;
-    return vec2(oU, oV);
-}
-
-glm::vec2 CylinderRTShape::getUVBarrel(const glm::vec4 &intersection) const {
-    float oU, oV;
-    oV = m_R - intersection.y;
-
-    float theta = std::atan2(intersection.z, intersection.x);
-    if (theta < 0) {
-        oU = -theta / (2 * M_PI);
-    } else {
-        oU = 1.f - theta / (2 * M_PI);
-    }
-    return vec2(oU, oV);
 }
 
 bool CylinderRTShape::intersect(const Ray &ray, SurfaceInteraction &oSurInteraction) const {
@@ -132,19 +100,16 @@ bool CylinderRTShape::intersect(const Ray &ray, SurfaceInteraction &oSurInteract
     case CYLD_TPDISK_IDX:
     {
         normal = getNormalTop();
-        uv = getUVTop(isectP);
         break;
     }
     case CYLD_BTDISK_IDX:
     {
         normal = getNormalBottom();
-        uv = getUVBottom(isectP);
         break;
     }
     case CYLD_BARREL_IDX:
     {
         normal = getNormalBarrel(isectP);
-        uv = getUVBarrel(isectP);
         break;
     }
     default:
